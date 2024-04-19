@@ -7,11 +7,15 @@ import dotenv from "dotenv"
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; 
 const current_user = process.env.CURRENT_USER;
 
 app.get('/', (req: Request, res: Response) => {
-    res.send(`Current developer is ${current_user}`);
+    res.send(`Welcome to express with typescript!`);
+})
+
+app.get('/users', (req: Request, res: Response) =>{
+    res.send(`The current app developer is ${current_user}`)
 })
 
 app.listen(port, () => {
