@@ -1,5 +1,5 @@
 # Mindful Server API
-### This is a server that handles data logic for the mindful client application
+### This is a server that handles data logic for the Mindful Client Application
 
 ## Technologies
    * Node JS
