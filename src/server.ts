@@ -1,23 +1,30 @@
-// const express = require('express');
-// const dotenv = require('dotenv');
-import express, {Express, Request, Response} from "express"
-import dotenv from "dotenv"
 
-// load environment variables
-dotenv.config();
+import express, { Application, Express} from "express";
+import cors from "cors";
+import config from "./config/config";
+import { connectDB } from './config/db.config'
+import userRouter from "./routes/user.router";
 
-const app = express();
-const port = process.env.PORT || 3000; 
-const current_user = process.env.CURRENT_USER;
+const createServer = (): Application => {
+    const app: Express = express()
 
-app.get('/', (req: Request, res: Response) => {
-    res.send(`Welcome to express with typescript!`);
-})
+    app.use(cors())
+    app.use(express.json());
+    
+    connectDB()
+    
+    app.use('/users', userRouter)
 
-app.get('/users', (req: Request, res: Response) =>{
-    res.send(`The current app developer is ${current_user}`)
-})
+    return app
+}
 
-app.listen(port, () => {
-    console.log(`[Server]: Server is running at http://localhost:${port}`);
-})
+const startServer = (): void => {
+    const app = createServer();
+
+    app.listen(config.port, ()=> {
+        console.log(`Server is running on: http://localhost:${config.port}`)
+    })
+}
+
+startServer();
+
