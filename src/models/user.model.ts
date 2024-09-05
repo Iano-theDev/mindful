@@ -17,7 +17,7 @@ const UserSchema: Schema = new Schema({
     firstName: { type: String, required: true },
     middleName: { type: String, default: "" },
     lastName: { type: String, required: true },
-    userName: { type: String, default: null, index: { unique: true } },
+    userName: { type: String, required: true, index: { unique: true } },
     email: {
         type: String,
         required: [true, 'email is required'], 
