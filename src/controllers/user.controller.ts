@@ -45,7 +45,7 @@ export class UserController {
             }
 
             const user = await this.userService.getOneUser(query)
-            res.status(200).json({ message: "user found", user: user })
+            return res.status(200).json({ message: "user found", user: user })
         } catch (error: any) {
             next(error)
         }
@@ -57,17 +57,25 @@ export class UserController {
         try {
             const users = await this.userService.getUsers(filter)
             // console.log("we got this users", users)
-            res.status(200).json({message: "fetched users successfully", users})
+            return res.status(200).json({message: "fetched users successfully", users})
         } catch (error) {
             next(error)
         }
     }
 
-    updateUser = async (req: Request, res: Response): Promise<any> => {
+    updateUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
+            const query  = {_id: req.params.id}
+            const update  = req.body
+            
+            console.log("request parameters", query, update)
+
+            const updateRes = await this.userService.updateUser(query, update)
+
+            return res.status(201).json(updateRes)
 
         } catch (error) {
-
+            next(error)
         }
     }
 
@@ -75,7 +83,9 @@ export class UserController {
         const { _id, email, userName } = req.query
         let query: any = {}
         try {
-            if (_id) {
+            if (req.params.id) {
+                query  = {_id: req.params.id}
+            } else if (_id) {
                 query._id = _id
             } else if (email) {
                 query.email = email
@@ -84,8 +94,9 @@ export class UserController {
             } else {
                 throw new ValidationError("provide valid email or username")
             }
-            await this.userService.deleteUser(query)
-            res.status(204).json({message: "user deleted successfully"})
+            const deletedUser = await this.userService.deleteUser(query)
+            console.log("deleted user",deletedUser)
+            return res.status(200).json({message: "user deleted successfully", userName: deletedUser.userName})
         } catch (error) {
             next(error)
         }

@@ -3,6 +3,8 @@ import User, {IUser} from '../models/user.model'
 import bcrypt from 'bcryptjs'
 import { NotFoundError, ValidationError } from '../models/error.model';
 import { buildExclusionProjection } from '../utils/projsctions.utils'; 
+import { strict } from 'assert';
+import { UpdateOneModel } from 'mongoose';
 export class UserService {
     // create a new user
     createUser = async (data: {firstName: string; middleName: string; lastName: string; userName: string; email: string; password: string; phone: string; }): Promise<IUser> => {
@@ -49,7 +51,7 @@ export class UserService {
         }
     }
 
-    getUsers = async (filter: any) => {
+    getUsers = async (filter: any): Promise<IUser[]> => {
         const excludeFields = ['password', '__v']
         const excludeProjection = buildExclusionProjection(excludeFields)
         try {
@@ -64,20 +66,47 @@ export class UserService {
         }
     }
 
-    updateUser = async () => {
+    updateUser = async (query: any, update: any) => {
+        const options = {strict: true, runValidators: true}
+        try {
+            console.log("update object", update);
+            if (update.password) {
+                delete update.password
+            }
+            if (update.email) {
+                delete update.email
+            }
+            const updateQuery = {
+                $set: update
+            }
+            const updatedUser = await User.updateOne(query, updateQuery, options)
+            if (!updatedUser.acknowledged) {
+                throw new ValidationError("failed to update user")
+            }
+            if (updatedUser.matchedCount === 0) {
+                throw new NotFoundError("user not found")
+            }
+            if (updatedUser.modifiedCount === 0) {
+                return {message: "no changes were made to the user"}
+            } 
+            return {updatedUser, message: "user updated successfully"}
+        } catch (error) {
+            throw error
+        }
         
     }
 
     // delete user 
-    deleteUser = async (query: any): Promise<void> => {
+    deleteUser = async (query: any): Promise<IUser> => {
         try {
             // console.log("query is: ", query)
             const user  = await User.findOneAndDelete(query)
             if (!user) {
                 throw new NotFoundError('user not found')
             }
-            return
+            return user
         } catch (error) {
+            console.log("error", error)
             throw error
         }
     }

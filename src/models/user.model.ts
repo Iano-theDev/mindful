@@ -27,8 +27,15 @@ const UserSchema: Schema = new Schema({
             message: 'Invalid email format'
         }
     },
-    password: { type: String, required: true },
-    phone: { type: String, default: null },
-}, { timestamps: true })
+    password: { 
+        type: String,
+        required: [true, 'password is required'],
+        validate: {
+            validator: validator.isStrongPassword,
+            message: "use a stronger password"
+        }
+    },
+    phone: { type: Number, default: null },
+}, { timestamps: true, strict: true })
 
 export default mongoose.model<IUser>('User', UserSchema)
