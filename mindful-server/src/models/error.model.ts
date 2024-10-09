@@ -26,6 +26,16 @@ export class ValidationError extends Error implements ICustomError{
     }
 }
 
+export class CustomError extends Error implements ICustomError{
+    status: number;
+
+    constructor (message: string, status: number, name: string) {
+        super(message)
+        this.status = status;
+        this.name = name
+    }
+}
+
 export class ServerError extends Error implements ICustomError{
     status: number;
 

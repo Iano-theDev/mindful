@@ -1,0 +1,220 @@
+// Users Collection - Base user information (remains mostly the same)
+{
+    _id: ObjectId,
+    email: String,
+    passwordHash: String,
+    firstName: String,
+    lastName: String,
+    phoneNumber: String,
+    dateOfBirth: Date,
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      zipCode: String,
+      country: String
+    },
+    userType: String, // "therapist" or "client"
+    createdAt: Date,
+    updatedAt: Date,
+    isActive: Boolean,
+    profilePicture: String
+  }
+  
+  // Therapist Profiles Collection (modified)
+  {
+    _id: ObjectId,
+    userId: ObjectId, // Reference to Users collection
+    status: {
+      type: String, // "STUDENT", "VERIFIED_PROFESSIONAL"
+      verifiedAt: Date,
+      verifiedBy: ObjectId // Reference to admin who verified
+    },
+    education: {
+      currentLevel: String, // "UNDERGRADUATE", "MASTERS", "PHD"
+      university: String,
+      program: String,
+      expectedGraduation: Date,
+      studentId: String,
+      academicSupervisor: {
+        name: String,
+        email: String,
+        phoneNumber: String,
+        verified: Boolean
+      }
+    },
+    specializations: [String],
+    credentials: [{
+      degree: String,
+      institution: String,
+      year: Number,
+      licenseNumber: String,
+      licenseStatus: String // "PENDING", "ACTIVE", "EXPIRED"
+    }],
+    biography: String,
+    practiceDetails: {
+      type: String, // "STUDENT_PRACTICE", "PROFESSIONAL_PRACTICE"
+      hourlyRate: Number, // Null for students until verified
+      canCharge: Boolean,
+      supervisionRequired: Boolean
+    },
+    availability: [{
+      dayOfWeek: Number,
+      startTime: String,
+      endTime: String
+    }],
+    languages: [String],
+    experienceMetrics: {
+      totalSessions: Number,
+      totalHours: Number,
+      supervisedHours: Number,
+      averageRating: Number,
+      reviewCount: Number
+    },
+    verificationProgress: {
+      requiredHours: Number, // Set by admin
+      completedHours: Number,
+      minimumRating: Number,
+      currentRating: Number,
+      verificationStatus: String // "IN_PROGRESS", "ELIGIBLE", "VERIFIED"
+    }
+  }
+  
+  // Sessions Collection (modified)
+  {
+    _id: ObjectId,
+    therapistId: ObjectId,
+    clientId: ObjectId,
+    supervisor: {
+      required: Boolean,
+      supervisorId: ObjectId, // Reference to supervisor therapist if needed
+      notes: String
+    },
+    status: String, // "scheduled", "completed", "cancelled", "no-show"
+    dateTime: Date,
+    duration: Number,
+    type: String, // "video", "audio", "in-person"
+    sessionCategory: String, // "STUDENT_PRACTICE", "PROFESSIONAL_SERVICE"
+    notes: {
+      private: String,
+      shared: String,
+      supervisor: String // Notes from supervisor if applicable
+    },
+    payment: {
+      amount: Number,
+      status: String,
+      transactionId: String,
+      isFree: Boolean // For student practice sessions
+    },
+    meetingLink: String,
+    createdAt: Date,
+    updatedAt: Date
+  }
+  
+  // Reviews Collection (modified)
+  {
+    _id: ObjectId,
+    therapistId: ObjectId,
+    clientId: ObjectId,
+    sessionId: ObjectId,
+    rating: Number,
+    comment: String,
+    metrics: {
+      professionalism: Number,
+      knowledge: Number,
+      communication: Number,
+      helpfulness: Number
+    },
+    verification: {
+      countsTowardsVerification: Boolean,
+      verifiedByAdmin: Boolean,
+      verifiedAt: Date
+    },
+    createdAt: Date,
+    isPublic: Boolean
+  }
+  
+  // Verification Requirements Collection (new)
+  {
+    _id: ObjectId,
+    level: String, // "STUDENT_TO_PROFESSIONAL", "PROFESSIONAL_ADVANCEMENT"
+    requirements: {
+      minimumHours: Number,
+      minimumSessions: Number,
+      minimumRating: Number,
+      minimumReviews: Number,
+      requiredSupervision: Boolean,
+      supervisionHours: Number
+    },
+    evaluationCriteria: [{
+      criterion: String,
+      minimumScore: Number,
+      weight: Number
+    }],
+    updatedAt: Date,
+    activeVersion: Number
+  }
+  
+  // Supervision Records Collection (new)
+  {
+    _id: ObjectId,
+    studentTherapistId: ObjectId,
+    supervisorId: ObjectId,
+    sessionId: ObjectId,
+    type: String, // "SESSION_SUPERVISION", "GENERAL_SUPERVISION"
+    duration: Number,
+    date: Date,
+    notes: {
+      progress: String,
+      recommendations: String,
+      concerns: String
+    },
+    evaluation: {
+      clinicalSkills: Number,
+      professionalBehavior: Number,
+      clientInteraction: Number,
+      overallProgress: Number
+    },
+    milestone: {
+      achieved: [String],
+      pending: [String]
+    },
+    nextSteps: String,
+    createdAt: Date,
+    updatedAt: Date
+  }
+  
+  // Progress Tracking Collection (new)
+  {
+    _id: ObjectId,
+    therapistId: ObjectId,
+    period: {
+      startDate: Date,
+      endDate: Date
+    },
+    metrics: {
+      sessionsCompleted: Number,
+      hoursLogged: Number,
+      averageRating: Number,
+      supervisionHours: Number
+    },
+    milestones: [{
+      name: String,
+      achievedDate: Date,
+      verifiedBy: ObjectId
+    }],
+    verificationProgress: {
+      percentageComplete: Number,
+      remainingRequirements: [{
+        requirement: String,
+        current: Number,
+        target: Number
+      }]
+    },
+    statusUpdates: [{
+      date: Date,
+      status: String,
+      notes: String,
+      updatedBy: ObjectId
+    }]
+  }

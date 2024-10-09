@@ -1,0 +1,370 @@
+// Users Collection - Identity and Authentication
+{
+    _id: ObjectId,
+    email: {
+      address: String,
+      verified: Boolean,
+      verificationToken: String,
+      verificationExpires: Date
+    },
+    authentication: {
+      passwordHash: String,
+      failedAttempts: Number,
+      lastFailedAttempt: Date,
+      lockUntil: Date,
+      mfaEnabled: Boolean,
+      mfaSecret: String
+    },
+    status: {
+      isActive: Boolean,
+      deactivationReason: String,
+      lastLogin: Date,
+      lastActivityAt: Date
+    },
+    userType: {
+      role: String, // "THERAPIST" | "CLIENT" | "ADMIN"
+      verificationStatus: String // "PENDING" | "VERIFIED" | "REJECTED"
+    },
+    createdAt: Date,
+    updatedAt: Date,
+    version: Number // For optimistic concurrency control
+  }
+  
+  // Profiles Collection - Common Profile Data
+  {
+    _id: ObjectId,
+    userId: ObjectId,
+    personalInfo: {
+      firstName: String,
+      lastName: String,
+      dateOfBirth: Date,
+      gender: String,
+      pronouns: String,
+      timezone: String
+    },
+    contact: {
+      phoneNumber: {
+        value: String,
+        verified: Boolean,
+        verificationToken: String,
+        tokenExpiry: Date
+      },
+      address: {
+        street: String,
+        city: String,
+        state: String,
+        country: String,
+        zipCode: String,
+        coordinates: {
+          type: "Point",
+          coordinates: [Number] // [longitude, latitude]
+        }
+      }
+    },
+    communication: {
+      preferredLanguages: [String],
+      contactPreferences: {
+        email: Boolean,
+        sms: Boolean,
+        push: Boolean
+      }
+    },
+    security: {
+      emergencyContacts: [{
+        name: String,
+        relationship: String,
+        phoneNumber: String,
+        email: String,
+        isVerified: Boolean
+      }]
+    },
+    metadata: {
+      deviceIds: [String],
+      lastProfileUpdate: Date,
+      completionStatus: Number // Percentage of profile completion
+    }
+  }
+  
+  // TherapistProfiles Collection - Professional Information
+  {
+    _id: ObjectId,
+    userId: ObjectId,
+    professionalInfo: {
+      title: String,
+      specializations: [{
+        name: String,
+        yearsOfExperience: Number,
+        certifications: [String]
+      }],
+      education: [{
+        degree: String,
+        field: String,
+        institution: String,
+        year: Number,
+        verificationStatus: String
+      }],
+      licenses: [{
+        type: String,
+        number: String,
+        state: String,
+        expirationDate: Date,
+        verificationStatus: String,
+        verificationProof: String // Document reference
+      }]
+    },
+    practice: {
+      status: String, // "ACTIVE" | "ON_BREAK" | "NOT_ACCEPTING"
+      capacity: {
+        maxClients: Number,
+        currentClients: Number,
+        waitlistEnabled: Boolean
+      },
+      scheduling: {
+        sessionDuration: [Number], // Available duration options
+        bufferBetweenSessions: Number,
+        cancelationPolicy: {
+          minimumNotice: Number, // hours
+          fee: Number
+        }
+      }
+    },
+    availability: {
+      weeklySchedule: [{
+        dayOfWeek: Number,
+        slots: [{
+          startTime: String,
+          endTime: String,
+          type: [String] // ["VIDEO", "IN_PERSON", "CHAT"]
+        }]
+      }],
+      exceptions: [{
+        date: Date,
+        type: String, // "VACATION" | "CONFERENCE" | "PERSONAL"
+        note: String
+      }]
+    },
+    financials: {
+      rates: [{
+        sessionType: String,
+        duration: Number,
+        amount: Number,
+        currency: String
+      }],
+      paymentDetails: {
+        bankingInfo: String, // Encrypted
+        taxId: String, // Encrypted
+        paymentMethods: [String]
+      }
+    },
+    reputation: {
+      averageRating: Number,
+      totalReviews: Number,
+      featuredReviews: [ObjectId],
+      verifications: [{
+        type: String,
+        verifiedAt: Date,
+        verifiedBy: ObjectId
+      }]
+    }
+  }
+  
+  // ClientProfiles Collection - Clinical Information
+  {
+    _id: ObjectId,
+    userId: ObjectId,
+    clinicalInfo: {
+      intake: {
+        primaryConcerns: [String],
+        therapyGoals: [String],
+        previousTherapy: {
+          hasHistory: Boolean,
+          lastSession: Date,
+          duration: String,
+          experience: String
+        }
+      },
+      medicalHistory: {
+        conditions: [{
+          name: String,
+          diagnosedDate: Date,
+          status: String,
+          medications: [{
+            name: String,
+            dosage: String,
+            frequency: String
+          }]
+        }],
+        allergies: [String],
+        lastUpdated: Date
+      }
+    },
+    preferences: {
+      therapist: {
+        gender: [String],
+        languages: [String],
+        specializations: [String],
+        ageRange: {
+          min: Number,
+          max: Number
+        }
+      },
+      session: {
+        preferredTypes: [String],
+        preferredDays: [Number],
+        preferredTimes: [{
+          startTime: String,
+          endTime: String
+        }]
+      }
+    },
+    insurance: {
+      provider: String,
+      policyNumber: String,
+      groupNumber: String,
+      verificationStatus: String,
+      coverageDetails: {
+        copay: Number,
+        deductible: Number,
+        sessionsAllowed: Number,
+        sessionsUsed: Number
+      }
+    }
+  }
+  
+  // TherapyRelationships Collection - Manages Therapist-Client Relationships
+  {
+    _id: ObjectId,
+    therapistId: ObjectId,
+    clientId: ObjectId,
+    status: String, // "ACTIVE" | "PAUSED" | "TERMINATED"
+    timeline: {
+      startDate: Date,
+      endDate: Date,
+      pauseHistory: [{
+        startDate: Date,
+        endDate: Date,
+        reason: String
+      }]
+    },
+    treatment: {
+      primaryDiagnosis: String,
+      goals: [{
+        description: String,
+        status: String,
+        setDate: Date,
+        achievedDate: Date
+      }],
+      notes: [{
+        sessionId: ObjectId,
+        content: String,
+        tags: [String],
+        createdAt: Date
+      }]
+    },
+    metrics: {
+      totalSessions: Number,
+      attendanceRate: Number,
+      progressScores: [{
+        date: Date,
+        category: String,
+        score: Number
+      }]
+    }
+  }
+  
+  // Sessions Collection - Enhanced Session Management
+  {
+    _id: ObjectId,
+    relationshipId: ObjectId, // Reference to TherapyRelationships
+    scheduling: {
+      datetime: Date,
+      duration: Number,
+      type: String, // "VIDEO" | "IN_PERSON" | "CHAT"
+      status: String, // "SCHEDULED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW"
+      location: {
+        type: String, // "VIRTUAL" | "PHYSICAL"
+        details: Object // Virtual meeting link or physical address
+      }
+    },
+    clinical: {
+      presentingIssues: [String],
+      interventions: [String],
+      homework: {
+        assigned: String,
+        completionStatus: String
+      },
+      progress: {
+        rating: Number,
+        notes: String
+      }
+    },
+    notes: {
+      clinical: {
+        content: String,
+        lastModified: Date,
+        modifiedBy: ObjectId
+      },
+      administrative: {
+        content: String,
+        lastModified: Date,
+        modifiedBy: ObjectId
+      }
+    },
+    billing: {
+      amount: Number,
+      currency: String,
+      status: String,
+      insurance: {
+        claimed: Boolean,
+        claimId: String,
+        coverageAmount: Number
+      },
+      transaction: {
+        id: String,
+        provider: String,
+        status: String
+      }
+    },
+    quality: {
+      clientFeedback: {
+        rating: Number,
+        comments: String,
+        submittedAt: Date
+      },
+      therapistFeedback: {
+        sessionEffectiveness: Number,
+        clientEngagement: Number,
+        notes: String
+      }
+    }
+  }
+  
+  // Audit Collection - For Compliance and Security
+  {
+    _id: ObjectId,
+    timestamp: Date,
+    actor: {
+      userId: ObjectId,
+      userType: String,
+      ipAddress: String,
+      userAgent: String
+    },
+    action: {
+      type: String,
+      target: {
+        collection: String,
+        documentId: ObjectId,
+        fields: [String]
+      },
+      changes: {
+        before: Object,
+        after: Object
+      }
+    },
+    metadata: {
+      sessionId: String,
+      requestId: String,
+      status: String,
+      errorDetails: Object
+    }
+  }
