@@ -7,6 +7,7 @@ import userRouter from "./routes/user.router";
 import { error } from "console";
 import { ICustomError } from "./models/error.model";
 import { ErrorService } from "./services/error.service";
+import authRouter from "./routes/auth.routes";
 
 const createServer = (): Application => {
     const app: Express = express()
@@ -18,6 +19,7 @@ const createServer = (): Application => {
     connectDB()
     
     app.use('/users', userRouter)
+    app.use('/auth', authRouter)
 
     app.use((err: ICustomError, req: Request, res: Response, next: NextFunction) => {
         errorService.handleError(err, req, res, next)
