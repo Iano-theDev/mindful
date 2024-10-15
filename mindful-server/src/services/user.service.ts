@@ -7,20 +7,17 @@ import { strict } from 'assert';
 import mongoose, { mongo, UpdateOneModel } from 'mongoose';
 import config from '../config/config';
 import { promisify } from 'util';
+import { MailService } from './mial.service';
 
 export class UserService {
+    private mailservice: MailService
+    constructor () {
+        this.mailservice  = new MailService()
+    }
     // create a new user
     createUser = async (data: { firstName: string; middleName: string; lastName: string; userName: string; email: string; role: string, password: string; phone: string; }): Promise<IUser> => {
         // check if the use already exists
-        // const mongo_uri = config.mongo_uri
-        // const conn = mongoose.createConnection(mongo_uri)
-
-        // const coll = await conn.createCollection(".testColl")
-        // console.log("COLLOCTION ", coll)
-
-
         const existingUser = await User.findOne({ email: data.email })
-
 
         if (existingUser) {
             throw new ValidationError("user with this email or username already exists")
@@ -34,7 +31,10 @@ export class UserService {
             password: hashedPassword
         })
 
-        await user.save();
+        let userSaved = await user.save();
+        if (userSaved) {
+            await this.mailservice.sendWelcomeMail(user.email, user.firstName)
+        }
 
         // return user without pass
         const { password, ...userWithoutPass } = user.toObject()
