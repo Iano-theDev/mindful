@@ -8,11 +8,17 @@ import mongoose, { mongo, UpdateOneModel } from 'mongoose';
 import config from '../config/config';
 import { promisify } from 'util';
 import { MailService } from './mial.service';
+// import { MessageQueueService } from './messagequeue.service';
+import isEmail from 'validator/lib/isEmail';
+import * as messageQueue from './messagequeue.service';
+
 
 export class UserService {
     private mailservice: MailService
+    // private messageQueue: MessageQueueService
     constructor () {
         this.mailservice  = new MailService()
+        // this.messageQueue = new MessageQueueService()
     }
     // create a new user
     createUser = async (data: { firstName: string; middleName: string; lastName: string; userName: string; email: string; role: string, password: string; phone: string; }): Promise<IUser> => {
@@ -30,10 +36,19 @@ export class UserService {
             ...data,
             password: hashedPassword
         })
-
+        
         let userSaved = await user.save();
         if (userSaved) {
-            await this.mailservice.sendWelcomeMail(user.email, user.firstName)
+            const emailTask = {
+                type: 'welcome',
+                to: user.email,
+                name: user.firstName
+            }
+            let info  = await messageQueue.sendToQueue('email_tasks', emailTask)
+            // await this.messageQueue.consume('email_task', this.mailservice.processEmailQueue)
+
+            console.log("Created user and added welcome email to queue ", info)
+            // await this.mailservice.sendWelcomeMail(user.email, user.firstName)
         }
 
         // return user without pass
