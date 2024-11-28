@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer'
 
 export class MailService {
     private transporter
-    
+
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: config.mail_host,
@@ -22,7 +22,7 @@ export class MailService {
             to: userEmail,
             subject: "Welcome to mindful",
             text: `Hello ${userName}\n\n we're very excited to have you on board!`,
-            html: `<h1><b> Welcome </b></h1>`
+            html: `<h1><b> Welcome </b></h1><br><p>Hello ${userName}\n\n we're very excited to have you on board!<p/>`
         }
         console.log("mailOptions are: ", mailOptions)
         try {
@@ -31,8 +31,24 @@ export class MailService {
             return info
         } catch (error) {
             console.log("An error occured: ", error)
-
             throw error
+        }
+    }
+
+    processEmailQueue = async (message: any) => {
+        console.log("Inside process email queue", message) 
+        try {
+            switch (message.type) {
+                case 'welcome':
+                    await this.sendWelcomeMail(message.to, message.name);
+                    break;
+                default:
+                    console.log('Unknown email task type', message.type)
+            }
+
+        } catch (error) {
+            console.log("Failed to process email queue: ", error);
+            
         }
     }
 }

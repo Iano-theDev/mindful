@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3000
+
+### Create user
+POST {{baseUrl}}/users/
+Content-Type: application/json
+
+{
+    "firstName": "Yano",
+    "lastName": "Admin",
+    "userName": "YanoAdmin",
+    "email": "sinceianmike@gmail.com",
+    "role": "therapist",
+    "password": "iownthis",
+    "phone": "+254797103881"
+}
+
+### delete a user 
+DELETE {{baseUrl}}/users?email=sinceianmike@gmail.com
+
+
+### update a user

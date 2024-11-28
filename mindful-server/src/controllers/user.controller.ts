@@ -95,8 +95,40 @@ export class UserController {
                 throw new ValidationError("provide valid email or username")
             }
             const deletedUser = await this.userService.deleteUser(query)
-            console.log("deleted user",deletedUser)
+            console.log("deleted user",deletedUser._id)
             return res.status(200).json({message: "user deleted successfully", userName: deletedUser.userName})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    createUserClient = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        // establish that credentials are needed to create a client
+    }
+
+    createUserTherapist = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        // establish that credentials are needed to create a therapist
+        const {  email, userName, age, nationality, occupation, qualification, specialization, licenseNumber, hourlyRate } = req.query
+        let therapistData = {
+            age: age,
+            nationality: nationality,
+            occupation: occupation,
+            qualification: qualification,
+            specialization: specialization,
+            licenseNumber: licenseNumber,
+            rating: 0,
+            hourlyRate: hourlyRate
+        }
+        let query: any = {}
+        try {
+            if (email) {
+                query.email = email
+            } else if (userName) {
+                query.userName = userName
+            } else {
+                throw new ValidationError("provide valid email or username")
+            }
+            const createdTherapist = await this.userService.createUserTherapist(query, null) // fix types error comming from service
         } catch (error) {
             next(error)
         }

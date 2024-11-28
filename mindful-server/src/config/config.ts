@@ -9,7 +9,10 @@ const config: any = {
     docs_limit: process.env.DOC_LIMIT,
     mail_host: process.env.MAIL_HOST,
     mindful_mail: process.env.MINDFUL_EMAIL_ADDRESS,
-    mindful_mail_pass: process.env.EMAIL_PASS
+    mindful_mail_pass: process.env.EMAIL_PASS,
+    amqpUrl: process.env.AMQP_URL,
+    amqpUser: process.env.AMQP_USER || 'guest',
+    amqpPass: process.env.AMQP_PASS || 'guest',
 }
 
 export default config 
