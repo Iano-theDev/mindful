@@ -11,6 +11,7 @@ import { MailService } from './mial.service';
 // import { MessageQueueService } from './messagequeue.service';
 import isEmail from 'validator/lib/isEmail';
 import * as messageQueue from './messagequeue.service';
+import Therapist, { ITherapist } from '../models/therapist.model';
 
 
 export class UserService {
@@ -126,7 +127,24 @@ export class UserService {
             }
             return user
         } catch (error) {
-            console.log("error", error)
+            console.log("deleteUser error", error)
+            throw error
+        }
+    }
+
+    createUserTherapist = async(query: any, therapistData: { age: number; nationality?: string; occupation: string; qualification: string; specialization: string[]; licenseNumber: string; rating: number; hourlyRate: number;}): Promise<ITherapist> => {
+        try {
+            const user = await User.findOneAndDelete(query)
+            if (!user) {
+                throw new NotFoundError('createUserTherapist: user not found')
+            }
+            const newTherapist = new Therapist({
+                ...therapistData
+            })
+            console.log("# Therapist created", newTherapist)
+            return newTherapist
+        } catch (error) {
+            console.log("createUserTherapist error", error)
             throw error
         }
     }

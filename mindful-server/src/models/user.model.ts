@@ -10,7 +10,8 @@ export interface IUser extends Document {
     password: string;
     isOnline: boolean;
     role: string;
-    phone?: number;
+    // phone?: number;
+    phone?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -23,8 +24,8 @@ const UserSchema: Schema = new Schema({
     isOnline: { type: Boolean, default: false },
     role: { 
         type: String,
-        enum: ["client", "therapist"], 
-        required: true 
+        enum: ["client", "therapist"],
+        required: true
     },
     email: {
         type: String,
@@ -43,7 +44,8 @@ const UserSchema: Schema = new Schema({
             message: "use a stronger password"
         }
     },
-    phone: { type: Number, default: null },
+    // phone: { type: Number, default: null },
+    phone: { type: String, default: null },
 }, { timestamps: true, strict: true })
 
 export default mongoose.model<IUser>('User', UserSchema)
