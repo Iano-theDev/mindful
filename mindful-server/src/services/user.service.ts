@@ -3,13 +3,7 @@ import User, { IUser } from '../models/user.model'
 import bcrypt from 'bcryptjs'
 import { NotFoundError, ValidationError } from '../models/error.model';
 import { buildExclusionProjection } from '../utils/projsctions.utils';
-import { strict } from 'assert';
-import mongoose, { mongo, UpdateOneModel } from 'mongoose';
-import config from '../config/config';
-import { promisify } from 'util';
 import { MailService } from './mial.service';
-// import { MessageQueueService } from './messagequeue.service';
-import isEmail from 'validator/lib/isEmail';
 import * as messageQueue from './messagequeue.service';
 import Therapist, { ITherapist } from '../models/therapist.model';
 
@@ -61,36 +55,31 @@ export class UserService {
     getOneUser = async (query: any): Promise<IUser> => { // return type will always be IUser
         const excludeFields = ['password']
         const excludeProjection = buildExclusionProjection(excludeFields)
-        try {
             const user = await User.findOne(query, excludeProjection)
             if (!user) {
                 throw new NotFoundError('user not found')
             }
             return user.toObject() as IUser;
-        } catch (error) {
-            throw error
-        }
+
     }
 
     getUsers = async (filter: any): Promise<IUser[]> => {
         const excludeFields = ['password', '__v']
         const excludeProjection = buildExclusionProjection(excludeFields)
-        try {
             const users = await User.find(filter, excludeProjection)
 
             // console.log("users in user service ", users)
 
             if (!users) throw new NotFoundError("no users found")
             return users
-        } catch (error) {
-            throw error
-        }
+
     }
 
     updateUser = async (query: any, update: any) => {
         const options = { strict: true, runValidators: true }
-        try {
+    
             console.log("update object", update);
+            // user email and password should  for this service 
             if (update.password) {
                 delete update.password
             }
@@ -111,32 +100,25 @@ export class UserService {
                 return { message: "no changes were made to the user" }
             }
             return { updatedUser, message: "user updated successfully" }
-        } catch (error) {
-            throw error
-        }
 
     }
 
     // delete user 
     deleteUser = async (query: any): Promise<IUser> => {
-        try {
             // console.log("query is: ", query)
             const user = await User.findOneAndDelete(query)
             if (!user) {
                 throw new NotFoundError('user not found')
             }
             return user
-        } catch (error) {
-            console.log("deleteUser error", error)
-            throw error
-        }
     }
 
-    createUserTherapist = async(query: any, therapistData: { age: number; nationality?: string; occupation: string; qualification: string; specialization: string[]; licenseNumber: string; rating: number; hourlyRate: number;}): Promise<ITherapist> => {
+    // createUserAsTherapist = async(query: any, therapistData: { age: number; nationality?: string; occupation: string; qualification: string; specialization: string[]; licenseNumber: string; rating: number; hourlyRate: number;}): Promise<ITherapist> => {
+    createUserAsTherapist = async(query: any, therapistData: any): Promise<ITherapist> => {
         try {
             const user = await User.findOneAndDelete(query)
             if (!user) {
-                throw new NotFoundError('createUserTherapist: user not found')
+                throw new NotFoundError('createUserAsTherapist: user not found')
             }
             const newTherapist = new Therapist({
                 ...therapistData
@@ -144,7 +126,7 @@ export class UserService {
             console.log("# Therapist created", newTherapist)
             return newTherapist
         } catch (error) {
-            console.log("createUserTherapist error", error)
+            console.log("createUserAsTherapist error", error)
             throw error
         }
     }

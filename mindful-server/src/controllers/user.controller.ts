@@ -106,9 +106,10 @@ export class UserController {
         // establish that credentials are needed to create a client
     }
 
-    createUserTherapist = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    createUserAsTherapist = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         // establish that credentials are needed to create a therapist
-        const {  email, userName, age, nationality, occupation, qualification, specialization, licenseNumber, hourlyRate } = req.query
+
+        const {  email, userName, age, nationality, occupation, qualification, specialization, licenseNumber, hourlyRate } = req.body
         let therapistData = {
             age: age,
             nationality: nationality,
@@ -128,7 +129,7 @@ export class UserController {
             } else {
                 throw new ValidationError("provide valid email or username")
             }
-            const createdTherapist = await this.userService.createUserTherapist(query, null) // fix types error comming from service
+            const createdTherapist = await this.userService.createUserAsTherapist(query, null) // fix types error comming from service
         } catch (error) {
             next(error)
         }
