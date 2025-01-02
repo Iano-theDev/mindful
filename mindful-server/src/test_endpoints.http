@@ -4,18 +4,47 @@
 POST {{baseUrl}}/users/
 Content-Type: application/json
 
-{
-    "firstName": "Yano",
-    "lastName": "Admin",
-    "userName": "YanoAdmin",
-    "email": "sinceianmike@gmail.com",
-    "role": "therapist",
-    "password": "iownthis",
-    "phone": "+254797103881"
-}
+# {
+#     "firstName": "Yano",
+#     "lastName": "Admin",
+#     "userName": "YanoAdmin",
+#     "email": "sinceianmike@gmail.com",
+#     "role": "therapist",
+#     "password": "iownthis",
+#     "phone": "+254797103881"
+# }
+
+# {
+#     "firstName": "Gracie",
+#     "lastName": "Grace",
+#     "userName": "Grc",
+#     "email": "greycgathoni23@gmail.com",
+#     "role": "therapist",
+#     "password": "iownthis"
+
+# }
+
+# {
+#     "firstName": "Eunice",
+#     "lastName": "Njeri",
+#     "userName": "Eunicenjeri",
+#     "email": "njerieunice254@gmail.com",
+#     "role": "client",
+#     "password": "iownthis",
+#     "phone": "+254714075702"
+# }
+
+# {
+#     "firstName": "Candy",
+#     "lastName": "Chebet",
+#     "userName": "CCandy",
+#     "email": "candychebetcandy@gmail.com",
+#     "role": "therapist",
+#     "password": "cchebet"
+# }
 
 ### delete a user 
-DELETE {{baseUrl}}/users?email=sinceianmike@gmail.com
+DELETE {{baseUrl}}/users?email=sineianmike@gmail.com
 
 
 ### update a user
