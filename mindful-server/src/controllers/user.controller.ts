@@ -25,16 +25,23 @@ export class UserController {
         }
     }
 
+    getUserById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        const query  = {_id: req.params.id}
+        req.query = query
+        return this.getSingleUser(req, res, next)
+    }
+
     getSingleUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         const { _id, userName, email} = req.query
+        console.log("Request query is", req.query)
         const userId = req.params
         let query: any = {}
         try {
-            // if (email) {
-            //     query.email = email
-            // } else if (userName) {
-            //     query.userName = userName
-            // } else 
+            if (email) {
+                query.email = email
+            } else if (userName) {
+                query.userName = userName
+            } else 
             if (_id || userId) {
                 console.log('user id param: ', userId);
                 
@@ -80,7 +87,7 @@ export class UserController {
     }
 
     deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-        const { _id, email, userName } = req.query
+        const { _id, email, userName, role } = req.query
         let query: any = {}
         try {
             if (req.params.id) {
@@ -94,7 +101,7 @@ export class UserController {
             } else {
                 throw new ValidationError("provide valid email or username")
             }
-            const deletedUser = await this.userService.deleteUser(query)
+            const deletedUser = await this.userService.deleteUser(query, {role})
             console.log("deleted user",deletedUser._id)
             return res.status(200).json({message: "user deleted successfully", userName: deletedUser.userName})
         } catch (error) {
@@ -106,32 +113,5 @@ export class UserController {
         // establish that credentials are needed to create a client
     }
 
-    createUserAsTherapist = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-        // establish that credentials are needed to create a therapist
-
-        const {  email, userName, age, nationality, occupation, qualification, specialization, licenseNumber, hourlyRate } = req.body
-        let therapistData = {
-            age: age,
-            nationality: nationality,
-            occupation: occupation,
-            qualification: qualification,
-            specialization: specialization,
-            licenseNumber: licenseNumber,
-            rating: 0,
-            hourlyRate: hourlyRate
-        }
-        let query: any = {}
-        try {
-            if (email) {
-                query.email = email
-            } else if (userName) {
-                query.userName = userName
-            } else {
-                throw new ValidationError("provide valid email or username")
-            }
-            const createdTherapist = await this.userService.createUserAsTherapist(query, null) // fix types error comming from service
-        } catch (error) {
-            next(error)
-        }
-    }
+    
 }

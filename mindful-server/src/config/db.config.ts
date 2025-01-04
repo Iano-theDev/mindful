@@ -1,6 +1,9 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 import config from './config';
 
+// TODO
+// implement session connection per user after authentication
+
 export const connectDB = async (): Promise<void> => {
     try {
         const mongo_uri = config.mongo_uri

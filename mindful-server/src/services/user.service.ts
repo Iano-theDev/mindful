@@ -104,32 +104,37 @@ export class UserService {
     }
 
     // delete user 
-    deleteUser = async (query: any): Promise<IUser> => {
-            // console.log("query is: ", query)
-            const user = await User.findOneAndDelete(query)
+    deleteUser = async (query: any, role: any = null): Promise<IUser> => {
+            console.log("query is: ", query)
+            console.log("query is: ", role)
+            // check the role of the user to see if we're going to deactivate them as either clients or therapists
+            // otherwise just delete the user
+            // find the user and access the role
+            const user = await User.findOne(query)
             if (!user) {
+                throw new NotFoundError('Sorry this user was not found in our records!')
+            }
+            console.log("User is: ", user)
+            if (role) {
+                const updateQuery = {$set: { isActive: false}}
+                if (role.role === "therapist") {
+                    console.log("Deactivating therapist... ")
+                    let deactivatedTherapist = await Therapist.updateOne(query, updateQuery)
+                    // console.log("Deactivated therapist: ", deactivatedTherapist)
+                    
+                } else if (role.role === "client") {
+                    console.log("Deactivating client... ")
+                    let deactivatedClient = Therapist.updateOne(role, updateQuery)
+                }
+            }
+            const deletedUser = await User.findOneAndDelete(query)
+            if (!deletedUser) {
                 throw new NotFoundError('user not found')
             }
-            return user
+            return deletedUser
     }
 
-    // createUserAsTherapist = async(query: any, therapistData: { age: number; nationality?: string; occupation: string; qualification: string; specialization: string[]; licenseNumber: string; rating: number; hourlyRate: number;}): Promise<ITherapist> => {
-    createUserAsTherapist = async(query: any, therapistData: any): Promise<ITherapist> => {
-        try {
-            const user = await User.findOneAndDelete(query)
-            if (!user) {
-                throw new NotFoundError('createUserAsTherapist: user not found')
-            }
-            const newTherapist = new Therapist({
-                ...therapistData
-            })
-            console.log("# Therapist created", newTherapist)
-            return newTherapist
-        } catch (error) {
-            console.log("createUserAsTherapist error", error)
-            throw error
-        }
-    }
+
 
 }
 
