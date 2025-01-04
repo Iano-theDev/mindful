@@ -3,7 +3,7 @@ import express, { Application, Request, Response, Express, NextFunction } from "
 import cors from "cors";
 import config from "./config/config";
 import { connectDB } from './config/db.config'
-import userRouter from "./routes/user.router";
+import userRouter from "./routes/user.routes";
 import { ICustomError } from "./models/error.model";
 import { ErrorService } from "./services/error.service";
 import authRouter from "./routes/auth.routes";
@@ -11,6 +11,7 @@ import authRouter from "./routes/auth.routes";
 // import { MessageQueueService } from "./services/messagequeue.service";
 import * as msgQueue from "./services/messagequeue.service";
 import { MailService } from "./services/mial.service";
+import therapistRouter from "./routes/therapist.routes";
 
 const createServer = (): Application => {
     const app: Express = express()
@@ -23,8 +24,9 @@ const createServer = (): Application => {
     connectDB()
     startMsgQueue()
 
-    app.use('/users', userRouter)
     app.use('/auth', authRouter)
+    app.use('/users', userRouter)
+    app.use('/therapist', therapistRouter)
 
     app.use((err: ICustomError, req: Request, res: Response, next: NextFunction) => {
         errorService.handleError(err, req, res, next)
@@ -66,4 +68,3 @@ const startServer = (): void => {
 }
 
 startServer();
-
