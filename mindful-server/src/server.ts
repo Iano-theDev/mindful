@@ -7,6 +7,7 @@ import userRouter from "./routes/user.routes";
 import { ICustomError } from "./models/error.model";
 import { ErrorService } from "./services/error.service";
 import authRouter from "./routes/auth.routes";
+import winston from "winston";
 
 // import { MessageQueueService } from "./services/messagequeue.service";
 import * as msgQueue from "./services/messagequeue.service";
@@ -43,13 +44,14 @@ const startMsgQueue = async () => {
         await msgQueue.connect()
         await msgQueue.createQueue('email_tasks')
         await msgQueue.consume('email_tasks', mailService.processEmailQueue)
-        console.log('Message queue consumers are running...');
+        // console.log('Message queue consumers are running...');
+        winston.info('Message queue consumers are running...');
     } catch (error) {
-        console.log("Failed to start messageQueue consumers", error)
+        winston.error("Failed to start messageQueue consumers", error)
     }
 
     const gracefulShutdown = async () => {
-        console.log("Shutting down gracefully...");
+        winston.info("Shutting down gracefully...");
         await msgQueue.disconnect();
         process.exit(0);
     }
@@ -63,7 +65,7 @@ const startServer = (): void => {
     const app = createServer();
 
     app.listen(config.port, () => {
-        console.log(`Server is running on: http://localhost:${config.port}`)
+        winston.info(`Server is running on: http://localhost:${config.port}`)
     })
 }
 
