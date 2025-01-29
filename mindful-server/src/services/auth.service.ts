@@ -3,6 +3,7 @@ import User, { IUser } from '../models/user.model'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { logger } from '../config/winston.config';
 
 dotenv.config()
 
@@ -16,16 +17,16 @@ export class AuthService {
 
         // check if the use exists
         const user = await User.findOne({ email })
-        console.log("found user: ", user)
+        logger.info("found user: ", user)
 
         if (!user) {
             throw new ValidationError("Invalid Credentials, please try again")
         }
         let passMatch = await bcrypt.compare(password, user.password)
-        console.log("match pass ", passMatch)
+        logger.info("match pass ", passMatch)
 
         if (user && passMatch) {
-            // console.log("secrete key from env", this.secretKey, passMatch)
+            // logger.info("secrete key from env", this.secretKey, passMatch)
             user.isOnline = true
             await user.save()
 
@@ -34,11 +35,11 @@ export class AuthService {
                 this.secretKey as string,
                 { expiresIn: '1h' }
             )
-            console.log("token succesfully generated", token)
+            logger.info("token succesfully generated", token)
             return token
 
         } else {
-            // console.log("something went wrong")
+            // logger.info("something went wrong")
             throw new ValidationError("Invalid Credentials, please try again")
         }
     }
@@ -50,7 +51,7 @@ export class AuthService {
                 return { message: "user is not logged in", procStatus: false } 
             }
             // implement token invalidation mechanism here .
-            console.log("USER FOUND: ", user)
+            logger.info("USER FOUND: ", user)
             user.isOnline = false
             await user.save()
             return {message: "user logged out successfully", procStatus: true } 

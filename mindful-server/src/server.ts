@@ -13,6 +13,7 @@ import winston from "winston";
 import * as msgQueue from "./services/messagequeue.service";
 import { MailService } from "./services/mial.service";
 import therapistRouter from "./routes/therapist.routes";
+import { logger } from "./config/winston.config";
 
 const createServer = (): Application => {
     const app: Express = express()
@@ -44,14 +45,14 @@ const startMsgQueue = async () => {
         await msgQueue.connect()
         await msgQueue.createQueue('email_tasks')
         await msgQueue.consume('email_tasks', mailService.processEmailQueue)
-        // console.log('Message queue consumers are running...');
-        winston.info('Message queue consumers are running...');
+        // logger.info('Message queue consumers are running...');
+        logger.info('Message queue consumers are running...');
     } catch (error) {
-        winston.error("Failed to start messageQueue consumers", error)
+        logger.error("Failed to start messageQueue consumers", error)
     }
 
     const gracefulShutdown = async () => {
-        winston.info("Shutting down gracefully...");
+        logger.info("Shutting down gracefully...");
         await msgQueue.disconnect();
         process.exit(0);
     }
@@ -65,7 +66,7 @@ const startServer = (): void => {
     const app = createServer();
 
     app.listen(config.port, () => {
-        winston.info(`Server is running on: http://localhost:${config.port}`)
+        logger.info(`Server is running on: http://localhost:${config.port}`)
     })
 }
 

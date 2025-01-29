@@ -1,5 +1,6 @@
 import config from "../config/config";
 import nodemailer from 'nodemailer'
+import { logger } from '../config/winston.config';
 
 export class MailService {
     private transporter
@@ -16,7 +17,7 @@ export class MailService {
     }
 
     sendWelcomeMail = async (userEmail: string, userName: string) => {
-        console.log("Inside send welcome mail")
+        logger.info("Inside send welcome mail")
         const mailOptions = {
             from: config.mindful_mail,
             to: userEmail,
@@ -24,30 +25,30 @@ export class MailService {
             text: `Hello ${userName}\n\n we're very excited to have you on board!`,
             html: `<h1><b> Welcome </b></h1><br><p>Hello ${userName}\n\n we're very excited to have you on board!<p/>`
         }
-        console.log("mailOptions are: ", mailOptions)
+        logger.info("mailOptions are: ", mailOptions)
         try {
             let info = await this.transporter.sendMail(mailOptions)
-            console.log("Mail sent info is: ", info)
+            logger.info("Mail sent info is: ", info)
             return info
         } catch (error) {
-            console.log("An error occured: ", error)
+            logger.info("An error occured: ", error)
             throw error
         }
     }
 
     processEmailQueue = async (message: any) => {
-        console.log("Inside process email queue", message) 
+        logger.info("Inside process email queue", message) 
         try {
             switch (message.type) {
                 case 'welcome':
                     await this.sendWelcomeMail(message.to, message.name);
                     break;
                 default:
-                    console.log('Unknown email task type', message.type)
+                    logger.info('Unknown email task type', message.type)
             }
 
         } catch (error) {
-            console.log("Failed to process email queue: ", error);
+            logger.info("Failed to process email queue: ", error);
             
         }
     }

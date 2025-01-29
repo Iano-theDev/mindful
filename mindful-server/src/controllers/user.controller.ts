@@ -4,6 +4,7 @@ import { IUser } from "../models/user.model";
 import { ValidationError } from "../models/error.model";
 import { nextTick } from "process";
 import config from "../config/config";
+import { logger } from '../config/winston.config';
 
 // const userService = new UserService();
 
@@ -33,7 +34,7 @@ export class UserController {
 
     getSingleUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         const { _id, userName, email} = req.query
-        console.log("Request query is", req.query)
+        logger.info("Request query is", req.query)
         const userId = req.params
         let query: any = {}
         try {
@@ -43,7 +44,7 @@ export class UserController {
                 query.userName = userName
             } else 
             if (_id || userId) {
-                console.log('user id param: ', userId);
+                logger.info('user id param: ', userId);
                 
                 query._id = userId.id
             } else {
@@ -63,7 +64,7 @@ export class UserController {
         let filter = req.query 
         try {
             const users = await this.userService.getUsers(filter)
-            // console.log("we got this users", users)
+            // logger.info("we got this users", users)
             return res.status(200).json({message: "fetched users successfully", users})
         } catch (error) {
             next(error)
@@ -75,7 +76,7 @@ export class UserController {
             const query  = {_id: req.params.id}
             const update  = req.body
             
-            console.log("request parameters", query, update)
+            logger.info("request parameters", query, update)
 
             const updateRes = await this.userService.updateUser(query, update)
 
@@ -102,7 +103,7 @@ export class UserController {
                 throw new ValidationError("provide valid email or username")
             }
             const deletedUser = await this.userService.deleteUser(query, {role})
-            console.log("deleted user",deletedUser._id)
+            logger.info("deleted user",deletedUser._id)
             return res.status(200).json({message: "user deleted successfully", userName: deletedUser.userName})
         } catch (error) {
             next(error)
