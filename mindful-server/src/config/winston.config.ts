@@ -28,7 +28,7 @@ export const logger = winston.createLogger({
 
         // for normal logs
         new DailyRotateFile({
-            filename: path.join(__dirname + "../../logs/" + "app.%DATE%.log"),
+            filename: path.join(__dirname + "../../../logs/" + "app.%DATE%.log"),
             datePattern: "YYYY-MM-DD",
             maxSize: "10m",
             maxFiles: "14d",
@@ -38,7 +38,7 @@ export const logger = winston.createLogger({
         // rotate file for err logs
         new DailyRotateFile({
             level: 'error',
-            filename: path.join(__dirname + "../../logs" + "error.%DATE%.log"),
+            filename: path.join(__dirname + "../../../logs/" + "error.%DATE%.log"),
             datePattern: "YYYY-MM-DD",
             maxSize: "10m",
             maxFiles: "14d",
