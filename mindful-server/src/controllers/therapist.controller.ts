@@ -3,6 +3,7 @@ import { ValidationError } from "../models/error.model"
 import { TherapistService } from "../services/therapist.service"
 import { ITherapist } from "../models/therapist.model"
 import HTTP_STATUS from "../config/http.constants"
+import { logger } from '../config/winston.config';
 
 export class TherapistController {
     private therapistService: TherapistService
@@ -13,7 +14,7 @@ export class TherapistController {
         // establish that credentials are needed to create a therapist
 
         const { email, userName, age, nationality, occupation, qualification, yearsOfExperience, specialization, licenseNumber, rating, hourlyRate } = req.body
-        // console.log("Request body holds: ", req.body)
+        // logger.info("Request body holds: ", req.body)
         let therapistData = {
             email: email,
             age: age,
@@ -26,7 +27,7 @@ export class TherapistController {
             rating: rating,
             hourlyRate: hourlyRate
         }
-        console.log(therapistData)
+        logger.info(therapistData)
         let query: any = {}
         try {
             if (!email && !userName) {
@@ -40,7 +41,7 @@ export class TherapistController {
             const createdTherapist = await this.therapistService.createTherapist(query, therapistData)
             return res.status(201).json({ message: "therapist created successfully", therapist: createdTherapist })
         } catch (error) {
-            console.log("createUserAsTherapist error", error)
+            logger.info("createUserAsTherapist error", error)
             next(error)
         }
     }
@@ -49,7 +50,7 @@ export class TherapistController {
         let filter = req.query
         try {
             const therapists = await this.therapistService.getTherapists(filter)
-            // console.log("we got this users", users)
+            // logger.info("we got this users", users)
             return res.status(200).json({ message: "fetched therapists successfully", therapists })
 
         } catch (error) {

@@ -6,6 +6,7 @@ import { buildExclusionProjection } from '../utils/projsctions.utils';
 import { MailService } from './mial.service';
 import * as messageQueue from './messagequeue.service';
 import Therapist, { ITherapist } from '../models/therapist.model';
+import { logger } from '../config/winston.config';
 
 
 export class UserService {
@@ -42,7 +43,7 @@ export class UserService {
             let info  = await messageQueue.sendToQueue('email_tasks', emailTask)
             // await this.messageQueue.consume('email_task', this.mailservice.processEmailQueue)
 
-            console.log("Created user and added welcome email to queue ", info)
+            logger.info("Created user and added welcome email to queue ", info)
             // await this.mailservice.sendWelcomeMail(user.email, user.firstName)
         }
 
@@ -68,7 +69,7 @@ export class UserService {
         const excludeProjection = buildExclusionProjection(excludeFields)
             const users = await User.find(filter, excludeProjection)
 
-            // console.log("users in user service ", users)
+            // logger.info("users in user service ", users)
 
             if (!users) throw new NotFoundError("no users found")
             return users
@@ -78,7 +79,7 @@ export class UserService {
     updateUser = async (query: any, update: any) => {
         const options = { strict: true, runValidators: true }
     
-            console.log("update object", update);
+            logger.info("update object", update);
             // user email and password should  for this service 
             if (update.password) {
                 delete update.password
@@ -105,8 +106,8 @@ export class UserService {
 
     // delete user 
     deleteUser = async (query: any, role: any = null): Promise<IUser> => {
-            console.log("query is: ", query)
-            console.log("query is: ", role)
+            logger.info("query is: ", query)
+            logger.info("query is: ", role)
             // check the role of the user to see if we're going to deactivate them as either clients or therapists
             // otherwise just delete the user
             // find the user and access the role
@@ -114,16 +115,16 @@ export class UserService {
             if (!user) {
                 throw new NotFoundError('Sorry this user was not found in our records!')
             }
-            console.log("User is: ", user)
+            logger.info("User is: ", user)
             if (role) {
                 const updateQuery = {$set: { isActive: false}}
                 if (role.role === "therapist") {
-                    console.log("Deactivating therapist... ")
+                    logger.info("Deactivating therapist... ")
                     let deactivatedTherapist = await Therapist.updateOne(query, updateQuery)
-                    // console.log("Deactivated therapist: ", deactivatedTherapist)
+                    // logger.info("Deactivated therapist: ", deactivatedTherapist)
                     
                 } else if (role.role === "client") {
-                    console.log("Deactivating client... ")
+                    logger.info("Deactivating client... ")
                     let deactivatedClient = Therapist.updateOne(role, updateQuery)
                 }
             }
