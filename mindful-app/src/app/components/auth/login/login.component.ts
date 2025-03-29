@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -18,19 +19,22 @@ export class LoginComponent {
 
     valCheck: string[] = ['remember'];
 
+    loginForm: FormGroup;
+
     password!: string;
     email!: string;
 
-    constructor(public layoutService: LayoutService, private authService: AuthService) { }
+    constructor(public layoutService: LayoutService, private authService: AuthService, private fb: FormBuilder) {
+        this.loginForm = this.fb.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required]]
+        })
+     }
 
     onSubmit() {
-        console.log("Email: ", this.email)
-        console.log("Password : ", this.password)
-        let creds = {
-            email: this.email,
-            password: this.password
-        }
-        this.authService.login(creds).subscribe({
+        console.log("Login Form values: ", this.loginForm.value)
+        
+        this.authService.login(this.loginForm.value).subscribe({
             next:(res) => {
                 console.log("Res is: ", res)
             },

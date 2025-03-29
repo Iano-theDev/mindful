@@ -19,10 +19,15 @@ export class UserService {
     // create a new user
     createUser = async (data: { firstName: string; middleName: string; lastName: string; DOB: string; nationality: string; occupation: string; userName: string; email: string; role: string, password: string; phone: string; }): Promise<IUser> => {
         // check if the use already exists
-        const existingUser = await User.findOne({ email: data.email })
+        const userEmailExist = await User.findOne({ email: data.email })
+        const userNameExist = await User.findOne({ userName: data.userName })
 
-        if (existingUser) {
-            throw new ValidationError("user with this email or username already exists")
+
+        if (userEmailExist) {
+            throw new ValidationError("user with this email already exists")
+        } 
+        if (userNameExist) {
+            throw new ValidationError("this username already exists")
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10)
