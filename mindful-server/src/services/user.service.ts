@@ -17,7 +17,7 @@ export class UserService {
         // this.messageQueue = new MessageQueueService()
     }
     // create a new user
-    createUser = async (data: { firstName: string; middleName: string; lastName: string; userName: string; email: string; role: string, password: string; phone: string; }): Promise<IUser> => {
+    createUser = async (data: { firstName: string; middleName: string; lastName: string; DOB: string; nationality: string; occupation: string; userName: string; email: string; role: string, password: string; phone: string; }): Promise<IUser> => {
         // check if the use already exists
         const existingUser = await User.findOne({ email: data.email })
 
