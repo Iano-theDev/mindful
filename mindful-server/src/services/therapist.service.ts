@@ -19,7 +19,8 @@ export class TherapistService {
         })
 
         let savedTherapist = await newTherapist.save()
-        logger.info("# Therapist created", savedTherapist)
+        logger.info("# Therapist created", savedTherapist.toJSON())
+        // console.log("# Therapist created", savedTherapist)
         return savedTherapist
 
     }
@@ -35,7 +36,7 @@ export class TherapistService {
     deleteTherapist = async (query: any): Promise<ITherapist> => {
         const therapist = await Therapist.findOneAndDelete(query)
 
-        logger.info("Therapists found are: ", therapist)
+        logger.info("Therapists found are: ", therapist?.toJSON())
         if (!therapist) {
             throw new NotFoundError("Therapist Not Found")
         }

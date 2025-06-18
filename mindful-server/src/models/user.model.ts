@@ -6,6 +6,9 @@ export interface IUser extends Document {
     middleName?: string;
     lastName: string;
     userName?: string;
+    DOB?: string;
+    nationality?: string;
+    occupation?: string;
     email: string;
     password: string;
     isOnline: boolean;
@@ -20,12 +23,14 @@ const UserSchema: Schema = new Schema({
     firstName: { type: String, required: true },
     middleName: { type: String, default: "" },
     lastName: { type: String, required: true },
+    DOB: { type: String},
+    nationality: { type: String },
+    occupation: { type: String },
     userName: { type: String, required: true, index: { unique: true } },
     isOnline: { type: Boolean, default: false },
     role: { 
         type: String,
-        enum: ["client", "therapist"],
-        required: true
+        enum: ["client", "therapist"]
     },
     email: {
         type: String,

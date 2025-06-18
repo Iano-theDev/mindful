@@ -16,8 +16,8 @@ export class UserController {
     }
     createUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
-            const { firstName, middleName, lastName, userName, email, role, password, phone } = req.body
-            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, userName, email, role, password, phone })
+            const { firstName, middleName, lastName, userName, DOB, nationality, occupation, email, role, password, phone } = req.body
+            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role, password, phone })
 
             return res.status(201).json({ message: "user created successfully", user: savedUser })
 
@@ -76,7 +76,7 @@ export class UserController {
             const query  = {_id: req.params.id}
             const update  = req.body
             
-            logger.info("request parameters", query, update)
+            logger.info("request parameters",  update)
 
             const updateRes = await this.userService.updateUser(query, update)
 
