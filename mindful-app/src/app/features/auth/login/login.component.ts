@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/features/auth/auth.service';
-import { LoginRoutingModule } from './login-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,7 +13,6 @@ import { PasswordModule } from 'primeng/password';
     standalone: true,
     imports: [
         CommonModule,
-        LoginRoutingModule,
         ButtonModule,
         CheckboxModule,
         InputTextModule,
@@ -40,10 +38,10 @@ export class LoginComponent {
     email!: string;
 
     constructor(private authService: AuthService, private fb: FormBuilder) {
-        // this.loginForm = this.fb.group({
-        //     email: ['', [Validators.required, Validators.email]],
-        //     password: ['', [Validators.required]]
-        // })
+        this.loginForm = this.fb.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required]]
+        })
     }
 
     onSubmit() {
