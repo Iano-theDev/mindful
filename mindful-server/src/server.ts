@@ -20,7 +20,10 @@ const createServer = (): Application => {
     const errorService = new ErrorService()
 
 
-    app.use(cors())
+    app.use(cors({
+        origin: 'http://localhost:4200',
+        credentials: true
+      }))
     app.use(express.json());
 
     connectDB()
