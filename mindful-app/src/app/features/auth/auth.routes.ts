@@ -9,4 +9,4 @@ export const AUTH_ROUTES: Routes = [
         path: 'signup',
         loadComponent: () => import('../auth/signup/signup.component').then(c => c.SignupComponent)
     }
-] 
+]
