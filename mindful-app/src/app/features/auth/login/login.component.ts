@@ -10,7 +10,6 @@ import { PasswordModule } from 'primeng/password';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    standalone: true,
     imports: [
         CommonModule,
         ButtonModule,

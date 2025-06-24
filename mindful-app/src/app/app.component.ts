@@ -5,8 +5,7 @@ import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 'app-root',
-    standalone: true,
-    imports: [ CommonModule, RouterOutlet],
+    imports: [CommonModule, RouterOutlet],
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {

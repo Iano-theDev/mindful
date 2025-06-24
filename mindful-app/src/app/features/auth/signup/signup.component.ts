@@ -14,7 +14,6 @@ import { MessageModule } from 'primeng/message';
 
 @Component({
     selector: 'app-signup',
-    standalone: true,
     imports: [
         CommonModule,
         ButtonModule,
@@ -24,7 +23,8 @@ import { MessageModule } from 'primeng/message';
         PasswordModule,
         ReactiveFormsModule,
         ToastModule,
-        MessageModule],
+        MessageModule
+    ],
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss',
     providers: [MessageService]
