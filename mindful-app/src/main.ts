@@ -11,16 +11,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-// platformBrowserDynamic().bootstrapModule(AppModule)
-//   .catch(err => console.error(err));
-
-
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(BrowserAnimationsModule),
-    // more providers here
   ]
 }
 
