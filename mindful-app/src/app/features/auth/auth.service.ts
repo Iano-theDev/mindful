@@ -28,6 +28,11 @@ export class AuthService {
     return this.http.post(environment.MINDFUL_SERVER_URL + "/users", data)
   }
 
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('auth_token')
+    return !!token
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
