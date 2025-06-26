@@ -14,10 +14,12 @@ import * as msgQueue from "./services/messagequeue.service";
 import { MailService } from "./services/mial.service";
 import therapistRouter from "./routes/therapist.routes";
 import { logger } from "./config/winston.config";
+import { AuthController } from "./controllers/auth.controller";
 
 const createServer = (): Application => {
     const app: Express = express()
-    const errorService = new ErrorService()
+    const errorService = new ErrorService();
+    const authController = new AuthController();
 
 
     app.use(cors({
@@ -30,8 +32,8 @@ const createServer = (): Application => {
     startMsgQueue()
 
     app.use('/auth', authRouter)
-    app.use('/users', userRouter)
-    app.use('/therapist', therapistRouter)
+    app.use('/users', authController.verifyToken, userRouter)
+    app.use('/therapist', authController.verifyToken, therapistRouter)
 
     app.use((err: ICustomError, req: Request, res: Response, next: NextFunction) => {
         errorService.handleError(err, req, res, next)
