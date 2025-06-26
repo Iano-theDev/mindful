@@ -78,16 +78,12 @@ export class AuthController {
             logger.info("Token verification failed, ", error)
             res.status(401).json({ error: 'Invalid token', });
         }
-
     }
 
     verifyAccess = (requiredAccess: string) => {
         logger.info("inside access verifieer middlwware");
         return (req: any, res: Response, next: NextFunction) => {
             const user = req.user;
-
-
-
             if (user && user.access && user.access.includes(requiredAccess)) {
                 logger.info(`Access granted for ${requiredAccess}`);
                 next()
