@@ -6,6 +6,10 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-login',
@@ -16,7 +20,9 @@ import { PasswordModule } from 'primeng/password';
         CheckboxModule,
         InputTextModule,
         PasswordModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MessageModule,
+        ToastModule
     ],
     styles: [`
         :host ::ng-deep .pi-eye,
@@ -36,7 +42,7 @@ export class LoginComponent {
     password!: string;
     email!: string;
 
-    constructor(private authService: AuthService, private fb: FormBuilder) {
+    constructor(private authService: AuthService, private fb: FormBuilder, public router: Router, private messageService: MessageService) {
         this.loginForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required]]
@@ -49,9 +55,13 @@ export class LoginComponent {
         this.authService.login(this.loginForm.value).subscribe({
             next: (res) => {
                 console.log("Res is: ", res)
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
+                this.router.navigate(["/layout"])
             },
             error: err => {
                 console.error("An Error has occured while logging in: ", err)
+                this.messageService.add({ severity: 'error', summary: 'Failed', detail: err.error.error })
+
             },
             complete: () => {
                 console.log("We have completed executing the auth service inside the login component ")
