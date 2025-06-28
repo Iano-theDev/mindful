@@ -8,5 +8,4 @@ if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, appConfig
-)
+bootstrapApplication(AppComponent, appConfig)

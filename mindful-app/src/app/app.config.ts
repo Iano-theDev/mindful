@@ -7,9 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { authInterceptor } from "./features/auth/auth.interceptor";
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from "primeng/config";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAnimationsAsync(),
         provideRouter(routes),
         provideHttpClient(
             withInterceptors([authInterceptor]),
@@ -19,7 +21,8 @@ export const appConfig: ApplicationConfig = {
         providePrimeNG({
             theme: {
                 preset: 'aura'
-            }
+            },
+            ripple: true
         })
     ]
 }
