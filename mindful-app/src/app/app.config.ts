@@ -8,6 +8,7 @@ import { authInterceptor } from "./features/auth/auth.interceptor";
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from "primeng/config";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import Aura from '@primeng/themes/aura'
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -20,7 +21,7 @@ export const appConfig: ApplicationConfig = {
         MessageService,
         providePrimeNG({
             theme: {
-                preset: 'aura'
+                preset: Aura
             },
             ripple: true
         })

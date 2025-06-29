@@ -18,7 +18,7 @@
                     "builder": "@angular/build:application",
                     "options": {
                         "outputPath": {
-                            "base": "dist/sakai-ng"
+                            "base": "dist/mindful-app"
                         },
                         "index": "src/index.html",
                         "polyfills": [
@@ -31,8 +31,6 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "node_modules/@primeng/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/primeng.css",
                             "node_modules/primeicons/primeicons.css",
                             "src/styles.scss"
                         ],
