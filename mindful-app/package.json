@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng s -o",
+    "start": "ng s",
     "build": "ng build --verbose",
     "test": "jest",
     "test:watch": "jest --watch",

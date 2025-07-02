@@ -1,33 +1,17 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/features/auth/auth.service';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PasswordModule } from 'primeng/password';
-import { InputTextModule } from 'primeng/inputtext';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { MessageModule } from 'primeng/message';
 
+import { MessageService } from 'primeng/api';
+import { COMMON_IMPORTS } from 'src/app/shared/common.imports';
+import { PRIMENG_IMPORTS } from 'src/app/shared/primeng.imports';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-signup',
-    imports: [
-        CommonModule,
-        ButtonModule,
-        CheckboxModule,
-        InputTextModule,
-        FormsModule,
-        PasswordModule,
-        ReactiveFormsModule,
-        ToastModule,
-        MessageModule
-    ],
+    imports: [PRIMENG_IMPORTS, COMMON_IMPORTS],
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss',
-    providers: [MessageService]
 })
 export class SignupComponent {
     valCheck: string[] = ['remember'];
@@ -39,7 +23,7 @@ export class SignupComponent {
 
     signupForm: FormGroup;
 
-    constructor(private authService: AuthService, private fb: FormBuilder, private messageService: MessageService) {
+    constructor(private authService: AuthService, private fb: FormBuilder, private messageService: MessageService, public router: Router) {
         this.signupForm = this.fb.group({
             firstName: ["", [Validators.required, Validators.minLength(3)]],
             lastName: ["", [Validators.required, Validators.minLength(3)]],
@@ -64,11 +48,11 @@ export class SignupComponent {
             next: (res) => {
                 console.log("Res is: ", res)
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
+                this.router.navigate(['/auth/login'])
             },
             error: err => {
                 console.log("An Error has occured while logging in: ", err)
                 this.messageService.add({ severity: 'error', summary: 'Failed', detail: err.error.error })
-
             },
             complete: () => {
                 console.log("We have completed executing the auth service inside the login component ")
