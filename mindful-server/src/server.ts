@@ -29,7 +29,7 @@ const createServer = (): Application => {
                 callback(null, true)
             } else {
                 console.log(`Request from: ${origin} Not allowed by cors`)
-                throw new ValidationError(`Request from: ${origin} Not allowed by cors`)
+                callback(new ValidationError(`Request from: ${origin} Not allowed by cors`))
             }
         },
         credentials: true
