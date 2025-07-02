@@ -12,7 +12,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:dev": "ng s --configuration=development",
-    "start:prod": "ng s --configuration=production"
+    "start:prod": "ng s --configuration=production",
+    "build:dev": "ng build --verbose --configuration=development",
+    "build:prod": "ng build --verbose --configuration=production"
   },
   "private": true,
   "dependencies": {
