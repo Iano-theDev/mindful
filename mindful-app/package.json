@@ -10,7 +10,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "start:dev": "ng s --configuration=development",
+    "start:prod": "ng s --configuration=production"
   },
   "private": true,
   "dependencies": {
