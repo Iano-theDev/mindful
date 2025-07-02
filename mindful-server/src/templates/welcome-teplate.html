@@ -1,0 +1,177 @@
+     <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Welcome to Mindful!</title>
+            <style>
+                body {
+                    font-family: 'Inter', sans-serif; /* Using Inter as requested */
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+                .email-container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    border-radius: 12px; /* Rounded corners */
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    overflow: hidden;
+                    position: relative; /* For confetti positioning */
+                }
+                .header {
+                    background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); /* Green Gradient background */
+                    color: #ffffff;
+                    padding: 40px 30px;
+                    text-align: center;
+                    border-top-left-radius: 12px;
+                    border-top-right-radius: 12px;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 32px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                    position: relative;
+                    z-index: 2; /* Ensure text is above confetti */
+                }
+                .content {
+                    padding: 30px;
+                    color: #333333;
+                    line-height: 1.6;
+                }
+                .content p {
+                    margin-bottom: 15px;
+                    font-size: 16px;
+                }
+                .content .highlight {
+                    color: #4CAF50; /* Green highlight */
+                    font-weight: bold;
+                }
+                .button-container {
+                    text-align: center;
+                    padding: 20px 30px 30px;
+                }
+                .button {
+                    display: inline-block;
+                    background-color: #4CAF50; /* Green button */
+                    color: #ffffff;
+                    padding: 14px 28px;
+                    border-radius: 8px; /* Rounded button */
+                    text-decoration: none;
+                    font-weight: bold;
+                    font-size: 18px;
+                    transition: background-color 0.3s ease;
+                }
+                .button:hover {
+                    background-color: #388E3C; /* Darker green on hover */
+                }
+                .footer {
+                    background-color: #f0f0f0;
+                    color: #777777;
+                    text-align: center;
+                    padding: 20px 30px;
+                    font-size: 12px;
+                    border-bottom-left-radius: 12px;
+                    border-bottom-right-radius: 12px;
+                }
+
+                /* Confetti Effect */
+                @keyframes confetti-fall {
+                    0% { transform: translateY(-100px) rotateZ(0deg); opacity: 0; }
+                    10% { opacity: 1; }
+                    100% { transform: translateY(600px) rotateZ(720deg); opacity: 0; }
+                }
+
+                .confetti {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    background-color: #FFEB3B; /* Yellow */
+                    border-radius: 50%;
+                    opacity: 0;
+                    animation: confetti-fall 5s ease-out infinite;
+                }
+                .confetti:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; background-color: #8BC34A; } /* Light Green */
+                .confetti:nth-child(2) { top: 5%; left: 30%; animation-delay: 0.5s; background-color: #CDDC39; } /* Lime Green */
+                .confetti:nth-child(3) { top: 15%; left: 45%; animation-delay: 1s; background-color: #FFC107; } /* Amber */
+                .confetti:nth-child(4) { top: 0%; left: 60%; animation-delay: 1.5s; background-color: #4CAF50; } /* Green */
+                .confetti:nth-child(5) { top: 20%; left: 75%; animation-delay: 2s; background-color: #FFEB3B; } /* Yellow */
+                .confetti:nth-child(6) { top: 10%; left: 85%; animation-delay: 2.5s; background-color: #689F38; } /* Darker Green */
+                .confetti:nth-child(7) { top: 5%; left: 5%; animation-delay: 3s; background-color: #FF9800; } /* Orange */
+                .confetti:nth-child(8) { top: 25%; left: 90%; animation-delay: 3.5s; background-color: #A5D6A7; } /* Lighter Green */
+                .confetti:nth-child(9) { top: 18%; left: 25%; animation-delay: 4s; background-color: #C8E6C9; } /* Very Light Green */
+                .confetti:nth-child(10) { top: 8%; left: 70%; animation-delay: 4.5s; background-color: #FFD54F; } /* Deep Yellow */
+
+                /* Media Queries for responsiveness */
+                @media only screen and (max-width: 600px) {
+                    .email-container {
+                        margin: 0;
+                        border-radius: 0;
+                    }
+                    .header, .content, .button-container, .footer {
+                        padding: 20px;
+                    }
+                    .header h1 {
+                        font-size: 28px;
+                    }
+                    .button {
+                        font-size: 16px;
+                        padding: 12px 24px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="email-container">
+                <div class="header">
+                    <!-- Confetti elements -->
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <h1>Welcome to Mindful! 🎉</h1>
+                </div>
+                <div class="content">
+                    <p>Hello <span class="highlight">${userName}</span>,</p>
+                    <p>We're absolutely thrilled to have you join the Mindful community! Get ready to embark on a journey of growth, discovery, and inner peace.</p>
+                    <p>Your account is now active and waiting for you to explore all the amazing features we've prepared. Whether you're here to meditate, track your habits, or simply find a moment of calm, we're confident you'll love it.</p>
+                    <p>To get started, simply click the button below:</p>
+                </div>
+
+                <div class="button-container">
+                    <a href="https://mindful-ashy.vercel.app/" class="button">Go to Your Dashboard</a>
+                </div>
+                 <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                <div class="content">
+                    <p>If you have any questions or need assistance, don't hesitate to reach out to our support team. We're here to help!</p>
+                    <p>Warmly,</p>
+                    <p>Ian & The Mindful Team</p>
+                </div>
+                <div class="footer">
+                    <p>&copy;2025 Mindful. All rights reserved.</p>
+                    <p><a href="https://mindful-ashy.vercel.app/" style="color: #777777; text-decoration: underline;">Unsubscribe</a> | <a href="https://mindful-ashy.vercel.app/" style="color: #777777; text-decoration: underline;">Privacy Policy</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
