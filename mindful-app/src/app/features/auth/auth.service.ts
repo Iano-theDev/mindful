@@ -25,12 +25,13 @@ export class AuthService {
 
   signup(data: any): Observable<any> {
     console.log("Inside auth service signup, data is: ", data)
-    return this.http.post(environment.MINDFUL_SERVER_URL + "/users", data)
+    return this.http.post(environment.MINDFUL_SERVER_URL + "/auth/register", data)
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('auth_token')
     return !!token
+    // return true
   }
 
   logout() {
