@@ -21,7 +21,7 @@ const createServer = (): Application => {
     const errorService = new ErrorService();
     const authController = new AuthController();
 
-    let whiteList = ["http://localhost:4200", "https://mindful-dzwqarinw-ianothedevs-projects.vercel.app"]
+    let whiteList = ["http://localhost:4200", "https://mindful-dzwqarinw-ianothedevs-projects.vercel.app", "https://mindful-ashy.vercel.app"]
 
     app.use(cors({
         origin: function (origin: any, callback) {
