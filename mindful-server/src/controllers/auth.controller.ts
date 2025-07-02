@@ -4,6 +4,7 @@ import { AuthService } from "../services/auth.service";
 import jwt from 'jsonwebtoken'
 import { CustomError, ValidationError } from "../models/error.model";
 import { logger } from '../config/winston.config';
+import { UserService } from "../services/user.service";
 
 // ** NOTES TO DO 
 // implement auth using supertokens node package
@@ -11,8 +12,22 @@ import { logger } from '../config/winston.config';
 
 export class AuthController {
     private authService: AuthService;
+     private userService: UserService;
+     
     constructor() {
         this.authService = new AuthService()
+        this.userService = new UserService();
+    }
+    register = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        try {
+            const { firstName, middleName, lastName, userName, DOB, nationality, occupation, email, role, password, phone } = req.body
+            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role, password, phone })
+
+            return res.status(201).json({ message: "user created successfully", user: savedUser })
+
+        } catch (error: any) {
+            next(error)
+        }
     }
 
     login = async (req: Request, res: Response, next: NextFunction) => {
