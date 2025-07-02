@@ -13,6 +13,6 @@ export const connectDB = async (): Promise<void> => {
         logger.info("MongoDB connected successfully");
 
     } catch (error: any) {
-        winston.error('MongoDB connection error: ', error.message)
+        logger.error('MongoDB connection error: ', error)
     }
 }

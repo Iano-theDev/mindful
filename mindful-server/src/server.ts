@@ -4,10 +4,10 @@ import cors from "cors";
 import config from "./config/config";
 import { connectDB } from './config/db.config'
 import userRouter from "./routes/user.routes";
-import { ICustomError } from "./models/error.model";
+import { ICustomError, ValidationError } from "./models/error.model";
 import { ErrorService } from "./services/error.service";
 import authRouter from "./routes/auth.routes";
-import winston from "winston";
+import winston, { http } from "winston";
 
 // import { MessageQueueService } from "./services/messagequeue.service";
 import * as msgQueue from "./services/messagequeue.service";
@@ -21,11 +21,19 @@ const createServer = (): Application => {
     const errorService = new ErrorService();
     const authController = new AuthController();
 
+    let whiteList = ["http://localhost:4200", "https://mindful-dzwqarinw-ianothedevs-projects.vercel.app"]
 
     app.use(cors({
-        origin: 'http://localhost:4200',
+        origin: function (origin: any, callback) {
+            if (whiteList.indexOf(origin) !== -1) {
+                callback(null, true)
+            } else {
+                console.log(`Request from: ${origin} Not allowed by cors`)
+                throw new ValidationError(`Request from: ${origin} Not allowed by cors`)
+            }
+        },
         credentials: true
-      }))
+    }))
     app.use(express.json());
 
     connectDB()
@@ -46,7 +54,7 @@ const startMsgQueue = async () => {
     // const msgQueue = new MessageQueueService()
     const mailService = new MailService();
 
-    try {        
+    try {
         await msgQueue.connect()
         await msgQueue.createQueue('email_tasks')
         await msgQueue.consume('email_tasks', mailService.processEmailQueue)
@@ -69,9 +77,11 @@ const startMsgQueue = async () => {
 
 const startServer = (): void => {
     const app = createServer();
+    const server = app.listen(config.port, () => {
+        const { address, port } = server.address() as { address: string, port: number };
+        const host = address === '::' || address === '0.0.0.0' ? 'localhost' : address;
 
-    app.listen(config.port, () => {
-        logger.info(`Server is running on: http://localhost:${config.port}`)
+        logger.info(`Server is running on: http://${host}:${port}`)
     })
 }
 
