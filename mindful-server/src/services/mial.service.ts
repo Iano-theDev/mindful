@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer'
 import { logger } from '../config/winston.config';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import ejs from "ejs";
 
 export class MailService {
     private transporter
@@ -21,9 +22,13 @@ export class MailService {
     sendWelcomeMail = async (userEmail: string, userName: string) => {
         logger.info("Inside send welcome mail")
         //  const templatePath = path.join(__dirname, '../templates/welcome-teplate.html');
-        const templatePath = path.join(__dirname, '../', 'templates', 'welcomeEmail.html');
-          let htmlTemplate = await fs.readFile(templatePath, 'utf8');
-          htmlTemplate =  htmlTemplate.replace('${userName}', userName);
+        const templatePath = path.join(__dirname, '../', 'templates', 'welcome-teplate.ejs');
+        // let htmlTemplate = await fs.readFile(templatePath, 'utf8');
+        // htmlTemplate = htmlTemplate.replace('${userName}', userName);
+
+        const htmlTemplate = await ejs.renderFile(templatePath, {
+            userName: userName,
+        });
 
         const mailOptions = {
             from: config.mindful_mail,
