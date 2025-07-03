@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "## Technologies    * Node JS    * Express JS    * TypeScript    * Mongo DB",
   "main": "index.js",
+  "files":[
+    "templates/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
+    "build": "npx tsc && npm run copy-html",
     "start": "node dist/server.js",
-    "dev": "nodemon --watch src --exec ts-node src/server.ts"
+    "dev": "nodemon --watch src --exec ts-node src/server.ts",
+    "copy-html": "cp -r src/templates dist/templates"
   },
   "keywords": [],
   "author": "",
