@@ -20,7 +20,8 @@ export class MailService {
 
     sendWelcomeMail = async (userEmail: string, userName: string) => {
         logger.info("Inside send welcome mail")
-         const templatePath = path.join(__dirname, '../templates/welcome-teplate.html');
+        //  const templatePath = path.join(__dirname, '../templates/welcome-teplate.html');
+        const templatePath = path.join(__dirname, '../', 'templates', 'welcomeEmail.html');
           let htmlTemplate = await fs.readFile(templatePath, 'utf8');
           htmlTemplate =  htmlTemplate.replace('${userName}', userName);
 

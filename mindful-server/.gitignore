@@ -7,3 +7,6 @@ src/test_endpoints
 # Ignopre all log files
 logs 
 *.log
+
+# build files
+dist
