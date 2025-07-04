@@ -1,16 +1,18 @@
 <p-toast></p-toast>
-
-<div class="flex">
-
-</div>
-<p-card class="flex justify-content-center align-items-center min-h-screen">
+<p-card class="flex justify-content-center min-h-screen">
     <ng-template #header>
-        <div class="flex flex-column align-items-center gap-1">
-            <img src="assets/images/mindful-logo.png" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0"
-                style="border-radius: 50%; border: 2px solid white; width: 6rem; height: 6rem; object-fit: cover;">
+        <div class="flex justify-content-start align-items-center gap-1 p-3">
+            <img src="assets/images/mindful-logo.png" alt="mindful logo"
+                style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
 
-            <span class="text-600 font-medium">Create an account</span>
+            <span class="text-xl text-600 font-medium">Create an account</span>
         </div>
+        <!-- <div class="flex justify-content-center align-items-center gap-3 p-3">
+            <span class="text-3xl text-500">Create an account</span> 
+            <img src="assets/images/mindful-logo.png" alt="mindful logo"
+                style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
+
+        </div> -->
 
     </ng-template>
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">

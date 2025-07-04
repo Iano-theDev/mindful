@@ -5,7 +5,7 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 
 @Component({
     selector: 'app-layout',
-    imports: [RouterOutlet, TopBarComponent, SideNavComponent],
+    imports: [RouterOutlet, SideNavComponent],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss'
 })
