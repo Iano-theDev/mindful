@@ -1,11 +1,18 @@
 <p-toast></p-toast>
 <p-card class="flex justify-content-center">
     <ng-template #header>
-        <div class="flex justify-content-start align-items-center gap-1 p-3">
-            <img src="assets/images/mindful-logo.png" alt="mindful logo"
+        <div class=" flex flex-column sm:flex justify-content-start align-items-center gap-1 p-3">
+            <div class="hidden sm:block">
+                <img src="assets/images/mindful-logo.png" alt="mindful logo"
                 style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
+            </div>
 
-            <span class="text-xl text-600 font-medium">Create an account</span>
+            <div class="sm:hidden">
+                <img src="assets/images/mindful-logo.png" alt="mindful logo"
+                style="border-radius: 50%; border: 2px solid white; width: 2rem; height: 2rem; object-fit: cover;">
+            </div>
+
+            <span class="md:text-3xl">Create an account</span>
         </div>
         <!-- <div class="flex justify-content-center align-items-center gap-3 p-3">
             <span class="text-3xl text-500">Create an account</span> 
@@ -20,36 +27,36 @@
 
             <span class="p-input-icon-left">
                 <input id="email1" type="text" placeholder="First Name" formControlName="firstName" pInputText
-                    class="w-full md:w-30rem mb-3" style="padding:1rem">
+                    class="w-full p-2 sm:p-3 md:w-30rem mb-3">
             </span>
 
             <span class="p-input-icon-left">
                 <input id="email1" type="text" placeholder="Last Name" formControlName="lastName" pInputText
-                    class="w-full md:w-30rem mb-3" style="padding:1rem">
+                    class="w-full p-2 sm:p-3 md:w-30rem mb-3">
             </span>
 
             <span class="p-input-icon-left">
 
                 <input id="email1" type="text" placeholder="User Name" formControlName="userName" pInputText
-                    class="w-full md:w-30rem mb-3" style="padding:1rem">
+                    class="w-full p-2 sm:p-3 md:w-30rem mb-3">
             </span>
 
             <span class="p-input-icon-left">
 
                 <input id="email1" type="text" placeholder="Email address" formControlName="email" pInputText
-                    class="w-full md:w-30rem mb-3" style="padding:1rem">
+                    class="w-full p-2 sm:p-3 md:w-30rem mb-3">
             </span>
 
             <span class="p-input-icon-left">
                 <p-password id="password1" formControlName="password" placeholder="Password" [toggleMask]="true"
-                    styleClass="mb-3" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    styleClass="mb-3" inputStyleClass="w-full p-2 sm:p-3 md:w-30rem"></p-password>
             </span>
 
 
 
-            <div class="text-center mt-3">
-                <span>Already have an account? </span>
-                <a routerLink="/auth/login" class="text-primary font-medium">Sign In</a>
+            <div class="text-center mt-1 sm:mt-3">
+                <span class="text-sm sm:text-xl">Already have an account? </span>
+                <a routerLink="/auth/login" class="text-primary font-medium text-sm sm:text-xl">Sign In</a>
             </div>
 
             <!-- <div class="flex align-items-center justify-content-between mb-5 gap-5">
@@ -65,7 +72,7 @@
             </div>
         </div> -->
 
-            <button pButton pRipple label="Sign Up" class="w-full p-3 text-xl"></button>
+            <button pButton pRipple label="Sign Up" class="w-full p-2 sm:p-3 text-sm sm:text-xl"></button>
         </div>
     </form>
 </p-card>

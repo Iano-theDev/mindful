@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div class="mb-3 sticky top-0">
     <p-menubar [model]="">
         <ng-template #start>
             <div class="flex justify-content-start align-items-center gap-2 p-2">
@@ -6,7 +6,8 @@
                     <img src="assets/images/mindful-logo.png" alt="mindful logo"
                         style="border-radius: 50%; border: 2px solid white; width: 2.5rem; height: 2.5rem; object-fit: cover;">
                 </div>
-                <span class="text-2xl text-green-500">Mindful</span>
+                <!-- <span class="text-2xl text-green-500 sm:hidden"></span> -->
+                <span class="text-2xl text-green-500 hidden sm:block">Mindful</span>
             </div>
         </ng-template>
         <ng-template #item let-item let-root="root">
@@ -25,9 +26,29 @@
                 <p-menu #menu [model]="avatarMenuItems" [popup]="true" />
 
                 @if(!authService.isAuthenticated()) {
-                <div class="flex items-center gap-2">
-                    <p-button routerLink="/auth/login" label="Log In" icon="pi pi-sign-in" />
-                    <p-button routerLink="/auth/signup" label="Sign Up" icon="pi pi-user-plus" />
+                <div class="flex items-center gap-1">
+                    <!-- <p-button routerLink="/auth/login" label="Log In" icon="pi pi-sign-in" />
+                    <p-button routerLink="/auth/signup" label="Sign Up" icon="pi pi-user-plus" /> -->
+                     <!-- <p-button routerLink="/auth/login" 
+                              label="Log In" 
+                              icon="pi pi-sign-in" 
+                              size="small"
+                              class="hidden sm:block" />
+                    <p-button routerLink="/auth/signup" 
+                              label="Sign Up" 
+                              icon="pi pi-user-plus" 
+                              size="small"
+                              class="hidden sm:block" /> -->
+                    <p-button routerLink="/auth/login" 
+                              [label]="'Log In'"
+                              icon="pi pi-sign-in" 
+                              size="small"
+                              class="text-xs sm:text-sm p-1 sm:p-2" />
+                    <p-button routerLink="/auth/signup" 
+                              [label]="'Sign Up'"
+                              icon="pi pi-user-plus" 
+                              size="small"
+                              class="text-xs sm:text-sm p-1 sm:p-2" />
                 </div>
                 } @else {
                 <p-avatar (click)="menu.toggle($event)"

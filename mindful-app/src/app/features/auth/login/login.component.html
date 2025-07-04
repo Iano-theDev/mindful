@@ -7,17 +7,24 @@
 
             <span class="text-600 font-medium">Sign in to continue</span>
         </div> -->
-        <div class="flex justify-content-center align-items-center gap-3 p-3">
+        <div class="flex justify-content-center align-items-center gap-3 p-2 sm:p-3">
             <span class="md:text-3xl">Sign in to continue</span> 
-            <img src="assets/images/mindful-logo.png" alt="mindful logo"
+
+            <div class="hidden sm:block">
+                <img src="assets/images/mindful-logo.png" alt="mindful logo"
                 style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
+            </div>
 
+            <div class="sm:hidden">
+                <img src="assets/images/mindful-logo.png" alt="mindful logo"
+                style="border-radius: 50%; border: 2px solid white; width: 2rem; height: 2rem; object-fit: cover;">
+            </div>
+            
         </div>
-
-
     </ng-template>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- <ng-template #body class="sm:p-1"> -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="p-fluid flex flex-column gap-2">
             <span class="p-input-icon-left">
                 <i class="pi pi-envelope pl-2 pr-2"></i>
@@ -26,7 +33,7 @@
                     type="text" 
                     placeholder="Email address" 
                     pInputText 
-                    class="p-3 mb-3 md:w-30rem"
+                    class="p-2 sm:p-3 mb-3 md:w-30rem"
                     formControlName="email">
                 </span>
             <span class="">
@@ -36,14 +43,14 @@
                     [toggleMask]="true"
                     placeholder="Password"
                     styleClass="mb-3"
-                    inputStyleClass="w-full p-3 md:w-30rem"
+                    inputStyleClass="w-full p-2 sm:p-3 md:w-30rem"
                     formControlName="password">
                 </p-password>
             </span>
 
 
-            <div class="text-center mt-3">
-                <span>Don't have an account? </span>
+            <div class="text-center mt-1 sm:mt-3">
+                <span class="text-sm sm:text-base">Don't have an account? </span>
                 <a routerLink="/auth/signup" class="text-primary font-medium">Register</a>
             </div>
 
@@ -59,9 +66,12 @@
                         style="color: var(--primary-color)">Forgot password?</a>
                 </div> -->
 
-            <button pButton pRipple label="Sign In" class="w-full p-3 text-xl"></button>
+            <button pButton pRipple label="Sign In" class="w-full p-2 sm:p-3 text-sm sm:text-xl"></button>
         </div>
     </form>
+    <!-- </ng-template> -->
+
+    
 
 
 </p-card>
