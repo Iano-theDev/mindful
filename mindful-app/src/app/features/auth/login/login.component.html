@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-card class="flex justify-content-center min-h-screen">
+<p-card class="flex justify-content-center">
     <ng-template #header>
         <!-- <div class="flex flex-column align-items-center gap-1">
             <img src="assets/images/mindful-logo.png" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0"
@@ -26,7 +26,7 @@
                     type="text" 
                     placeholder="Email address" 
                     pInputText 
-                    class=" p-3 md:w-30rem"
+                    class="p-3 mb-3 md:w-30rem"
                     formControlName="email">
                 </span>
             <span class="">
@@ -35,7 +35,7 @@
                     id="password1"
                     [toggleMask]="true"
                     placeholder="Password"
-                    styleClass="mb-5"
+                    styleClass="mb-3"
                     inputStyleClass="w-full p-3 md:w-30rem"
                     formControlName="password">
                 </p-password>
