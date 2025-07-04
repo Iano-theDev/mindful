@@ -1,0 +1,14 @@
+  :host {
+      display: block;
+      height: 100vh;
+      /* Full height */
+      background-color: #f8f9fa;
+      /* Light background */
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      /* Enable scrolling if content overflows */
+  }
+
+// .my-custom-menu ::ng-deep .p-menu {
+//     border: none !important;
+// }

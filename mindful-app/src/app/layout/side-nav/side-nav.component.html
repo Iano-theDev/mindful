@@ -1,1 +1,64 @@
-<p>side-nav works!</p>
+<!-- <div class="card flex justify-center">
+    <p-toast/>
+    <p-panelMenu [model]="items" ></p-panelMenu>
+</div> -->
+<!-- <p-button (click)="layoutService.toggleDrawer()" icon="pi pi-bars"></p-button> -->
+<!-- 
+   <p-drawer [(visible)]='layoutService._drawerVisible' position="left" [baseZIndex]="10000">
+        <h3>Mindful</h3>
+        <p-menu [model]="items"></p-menu>
+    </p-drawer> -->
+
+<!-- <div class="card flex justify-center"> -->
+<p-drawer #drawerRef [(visible)]='layoutService._drawerVisible'>
+    <ng-template #headless>
+
+
+        <p-menu [model]="items" class="flex justify-center my-custom-menu" styleClass="w-full md:w-60">
+            <ng-template #start>
+                <!-- add sth here later, maybe a search bar -->
+                <!-- <div class="flex justify-start align-content-center px-3 pt-0 shrink-0 h-auto"> -->
+                <div class="flex justify-content-start align-items-center gap-2 p-2">
+                    <div>
+                        <img src="assets/images/mindful-logo.png" alt="mindful logo"
+                            style="border-radius: 50%; border: 2px solid white; width: 2.5rem; height: 2.5rem; object-fit: cover;">
+                    </div>
+                    <span class="font-semibold text-2xl text-cyan-700">Mindful</span>
+                </div>
+                <!-- <span class="flex align-items-center align-self-end">
+                <p-button type="button" (click)="layoutService.closeDrawer()" icon="pi pi-times" rounded="true"
+                    outlined="true"></p-button>
+            </span> -->
+                <!-- </div> -->
+            </ng-template>
+            <ng-template #submenuheader let-item>
+                <span class="text-primary font-bold">{{ item.label }}</span>
+            </ng-template>
+            <ng-template #item let-item>
+                <a pRipple class="flex items-center p-menu-item-link">
+                    <span [class]="item.icon"></span>
+                    <span class="ml-2">{{ item.label }}</span>
+                    <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+                    <span *ngIf="item.shortcut"
+                        class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">
+                        {{ item.shortcut }}
+                    </span>
+                </a>
+            </ng-template>
+            <ng-template #end>
+                <button pRipple
+                    class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
+                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" class="mr-2"
+                        shape="circle" />
+                    <span class="inline-flex flex-col">
+                        <span class="font-bold">Amy Elsner</span>
+                        <span class="text-sm">Admin</span>
+                    </span>
+                </button>
+            </ng-template>
+        </p-menu>
+    </ng-template>
+
+</p-drawer>
+<!-- <p-button (click)="layoutService.toggleDrawer()" icon="pi pi-bars" /> -->
+<!-- </div> -->

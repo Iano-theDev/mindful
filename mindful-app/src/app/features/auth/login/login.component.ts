@@ -10,14 +10,7 @@ import { COMMON_IMPORTS } from 'src/app/shared/common.imports';
     selector: 'app-login',
     templateUrl: './login.component.html',
     imports: [ PRIMENG_IMPORTS, COMMON_IMPORTS ],
-    styles: [`
-        :host ::ng-deep .pi-eye,
-        :host ::ng-deep .pi-eye-slash {
-            transform:scale(1.6);
-            margin-right: 1rem;
-            color: var(--primary-color) !important;
-        }
-    `]
+    styles: []
 })
 export class LoginComponent {
 

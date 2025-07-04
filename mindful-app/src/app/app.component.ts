@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { LayoutComponent } from './layout/layout/layout.component';
+import { TopBarComponent } from './layout/top-bar/top-bar.component';
 // import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, RouterOutlet],
+    imports: [CommonModule, RouterOutlet, TopBarComponent],
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
