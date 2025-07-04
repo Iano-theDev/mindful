@@ -43,12 +43,15 @@
                               [label]="'Log In'"
                               icon="pi pi-sign-in" 
                               size="small"
-                              class="text-xs sm:text-sm p-1 sm:p-2" />
+                              class="text-xs sm:text-sm p-1 sm:p-2"
+                              severity="secondary"
+                              />
                     <p-button routerLink="/auth/signup" 
                               [label]="'Sign Up'"
                               icon="pi pi-user-plus" 
                               size="small"
-                              class="text-xs sm:text-sm p-1 sm:p-2" />
+                              class="text-xs sm:text-sm p-1 sm:p-2"
+                              severity="secondary" />
                 </div>
                 } @else {
                 <p-avatar (click)="menu.toggle($event)"
