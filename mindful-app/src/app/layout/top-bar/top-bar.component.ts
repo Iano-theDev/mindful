@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar'
 import { Ripple} from 'primeng/ripple'
 import { Menu } from 'primeng/menu';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-top-bar',
@@ -24,6 +24,7 @@ export class TopBarComponent {
      avatarMenuItems: MenuItem[] | undefined;
      layoutService = inject(LayoutService);
      authService = inject(AuthService);
+     router = inject(Router)
 
      constructor() {}
 
@@ -36,7 +37,8 @@ export class TopBarComponent {
             },
             {
                 label: 'Profile',
-                icon: 'pi pi-user'
+                icon: 'pi pi-user',
+                command: () => this.router.navigate(['/users/profile'])
             },
             {
                 label: 'Log out',
