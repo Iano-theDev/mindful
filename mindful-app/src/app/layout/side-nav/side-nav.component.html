@@ -35,7 +35,7 @@
                 <span class="text-primary font-bold">{{ item.label }}</span>
             </ng-template>
             <ng-template #item let-item>
-                <a pRipple class="flex items-center p-menu-item-link">
+                <a pRipple class="flex items-center p-menu-item-link " (click)=onMenuItemClick(item)>
                     <span [class]="item.icon"></span>
                     <span class="ml-2">{{ item.label }}</span>
                     <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
@@ -46,7 +46,7 @@
                 </a>
             </ng-template>
             <ng-template #end>
-                <button pRipple
+                <!-- <button pRipple
                     class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
                     <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" class="mr-2"
                         shape="circle" />
@@ -54,11 +54,11 @@
                         <span class="font-bold">Amy Elsner</span>
                         <span class="text-sm">Admin</span>
                     </span>
-                </button>
+                </button> -->
             </ng-template>
         </p-menu>
     </ng-template>
 
 </p-drawer>
-<!-- <p-button (click)="layoutService.toggleDrawer()" icon="pi pi-bars" /> -->
+<!-- <p-button (click)="layoutService.toggleDrawer()"  [rounded]="true" icon="pi pi-bars" /> -->
 <!-- </div> -->
