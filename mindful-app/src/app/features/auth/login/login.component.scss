@@ -1,0 +1,24 @@
+::ng-deep .responsive-toast {
+  .p-toast-message {
+    font-size: 0.875rem !important;
+    padding: 0.5rem !important;
+    margin: 0.25rem !important;
+    max-width: 90vw !important;
+  }
+
+  @media (min-width: 576px) {
+    .p-toast-message {
+      font-size: 1rem !important;
+      padding: 0.75rem !important;
+      margin: 0.5rem !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .p-toast-message {
+      font-size: 1.125rem !important;
+      padding: 1rem !important;
+      margin: 1rem !important;
+    }
+  }
+}

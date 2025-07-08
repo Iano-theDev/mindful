@@ -4,7 +4,7 @@
     <ng-template #list let-items>
         <div *ngFor="let item of items"class="flex justify-content-between align-items-center p-2 sm:p-3">
             <div class="avatar">
-                <p-avatar routerLink="/users/profile"
+                <p-avatar [routerLink]="['/users/profile', item._id]"
                 [image]="'https://ui-avatars.com/api/?name=' + item.userName + '&background=random'" 
                 shape="circle" />
                 <!-- [image]="'https://api.dicebear.com/7.x/avataaars/svg?seed=' + item.userName"  -->
