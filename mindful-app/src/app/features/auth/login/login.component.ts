@@ -10,7 +10,7 @@ import { COMMON_IMPORTS } from 'src/app/shared/common.imports';
     selector: 'app-login',
     templateUrl: './login.component.html',
     imports: [ PRIMENG_IMPORTS, COMMON_IMPORTS ],
-    styles: []
+    styleUrl: './login.component.scss',
 })
 export class LoginComponent {
 
