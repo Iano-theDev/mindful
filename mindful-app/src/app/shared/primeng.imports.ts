@@ -7,6 +7,7 @@ import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { DataViewModule } from 'primeng/dataview';
 import { AvatarModule } from 'primeng/avatar';
+import { Select } from 'primeng/select';
 
 export const PRIMENG_IMPORTS = [
     ButtonModule,
@@ -17,6 +18,7 @@ export const PRIMENG_IMPORTS = [
     ToastModule,
     CardModule,
     DataViewModule,
-    AvatarModule
+    AvatarModule,
+    Select
   ];
   
