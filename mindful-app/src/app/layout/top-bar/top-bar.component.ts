@@ -30,11 +30,11 @@ export class TopBarComponent {
 
      ngOnInit() {
         this.avatarMenuItems = [
-            {
-                label: '',
-                icon: 'pi pi-bars',
-                command: () => this.layoutService.openDrawer()
-            },
+            // {
+            //     label: '',
+            //     icon: 'pi pi-bars',
+            //     command: () => this.layoutService.openDrawer()
+            // },
             {
                 label: 'Profile',
                 icon: 'pi pi-user',

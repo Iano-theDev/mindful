@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import validator from 'validator'
+import { ValidationError } from "./error.model";
 
 export interface IUser extends Document {
     firstName: string;
@@ -12,7 +13,11 @@ export interface IUser extends Document {
     email: string;
     password: string;
     isOnline: boolean;
-    role: string;
+    role: {
+        client: boolean;
+        therapist: boolean;
+        studentTherapist: boolean;
+    };
     // phone?: number;
     phone?: string;
     createdAt?: Date;
@@ -28,9 +33,14 @@ const UserSchema: Schema = new Schema({
     occupation: { type: String },
     userName: { type: String, required: true, index: { unique: true } },
     isOnline: { type: Boolean, default: false },
-    role: { 
-        type: String,
-        enum: ["client", "therapist"]
+    // role: { 
+    //     type: String,
+    //     enum: ["client", "therapist"]
+    // },
+     role: { 
+        client: {type: Boolean,  default: false},
+        therapist: {type: Boolean,  default: false},
+        studentTherapist: {type: Boolean,  default: false}
     },
     email: {
         type: String,
@@ -52,5 +62,13 @@ const UserSchema: Schema = new Schema({
     // phone: { type: Number, default: null },
     phone: { type: String, default: null },
 }, { timestamps: true, strict: true })
+
+UserSchema.pre<any>('save', function(next) {
+    if (this.role.therapist && this.role.studentTherapist) {
+        const error = new ValidationError('User cannot be both therapist and student therapist');
+        return next(error);
+    }
+    next();
+});
 
 export default mongoose.model<IUser>('User', UserSchema)

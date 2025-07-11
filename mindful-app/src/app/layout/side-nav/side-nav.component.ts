@@ -37,11 +37,11 @@ export class SideNavComponent {
         this.items = [
             {
                 items: [
-                    {
-                        label: '',
-                        icon: 'pi pi-bars',
-                        command: () => {this.toggleFullMenu(); console.log("Showfull menu : ", this.showFullMenu)}
-                    },
+                    // {
+                    //     label: '',
+                    //     icon: 'pi pi-bars',
+                    //     command: () => {this.toggleFullMenu(); console.log("Showfull menu : ", this.showFullMenu)}
+                    // },
                     {
                         label: 'People',
                         icon: 'pi pi-users',
