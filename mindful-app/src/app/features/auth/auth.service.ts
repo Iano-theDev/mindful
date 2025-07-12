@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, tap } from 'rxjs';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private readonly AUTH_TOKEN = 'auth_token'
 
+  loggedIn = signal(this.isAuthenticated());
+
   constructor(private http: HttpClient, private router: Router) { }
 
   login(data: any): Observable<any> {
@@ -18,6 +20,7 @@ export class AuthService {
       tap(response => {
         if (response?.token) {
           localStorage.setItem(this.AUTH_TOKEN, response.token)
+          this.loggedIn.set(true); 
         }
       })
     )
@@ -37,6 +40,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.router.navigate(['/auth/login']);
+    this.loggedIn.set(false); 
     return
   }
 }
