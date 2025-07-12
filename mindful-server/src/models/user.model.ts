@@ -14,9 +14,18 @@ export interface IUser extends Document {
     password: string;
     isOnline: boolean;
     role: {
-        client: boolean;
-        therapist: boolean;
-        studentTherapist: boolean;
+        client: {
+            active: boolean;
+            label: string;
+        };
+        therapist: {
+            active: boolean;
+            label: string;
+        };
+        studentTherapist: {
+            active: boolean;
+            label: string;
+        };
     };
     // phone?: number;
     phone?: string;
@@ -38,9 +47,18 @@ const UserSchema: Schema = new Schema({
     //     enum: ["client", "therapist"]
     // },
      role: { 
-        client: {type: Boolean,  default: false},
-        therapist: {type: Boolean,  default: false},
-        studentTherapist: {type: Boolean,  default: false}
+        client: {
+            active: { type: Boolean, default: false },
+            label: { type: String, default: "Client" }
+        },
+        therapist: {
+            active: { type: Boolean, default: false },
+            label: { type: String, default: "Therapist" }
+        },
+        studentTherapist: {
+            active: { type: Boolean, default: false },
+            label: { type: String, default: "Student Therapist" }
+        }
     },
     email: {
         type: String,
@@ -62,13 +80,5 @@ const UserSchema: Schema = new Schema({
     // phone: { type: Number, default: null },
     phone: { type: String, default: null },
 }, { timestamps: true, strict: true })
-
-UserSchema.pre<any>('save', function(next) {
-    if (this.role.therapist && this.role.studentTherapist) {
-        const error = new ValidationError('User cannot be both therapist and student therapist');
-        return next(error);
-    }
-    next();
-});
 
 export default mongoose.model<IUser>('User', UserSchema)
