@@ -22,20 +22,16 @@ export class SignupComponent {
     //   firstName!: string;
 
     accountTypes = [
-                    { name: 'Client', code: true },
-            { name: 'therapist', code: true },
-            { name: 'studentTherapist', code: true },
+        { name: 'Client', code: "client" },
+        { name: 'Therapist', code: "therapist" },
+        { name: 'Student Therapist', code: "studentTherapist" },
     ]
 
     signupForm: FormGroup;
 
     constructor(private authService: AuthService, private fb: FormBuilder, private messageService: MessageService, public router: Router) {
         this.signupForm = this.fb.group({
-            role: this.fb.group({
-                client: [false],
-                therapist: [false],
-                studentTherapist: [false]
-            }),
+            role: ["", [Validators.required]],
             firstName: ["", [Validators.required, Validators.minLength(3)]],
             lastName: ["", [Validators.required, Validators.minLength(3)]],
             userName: ["", [Validators.required, Validators.minLength(5)]],

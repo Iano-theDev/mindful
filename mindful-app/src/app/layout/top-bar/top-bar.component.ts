@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnChanges, OnInit } from '@angular/core'
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { MenuItem } from 'primeng/api';
@@ -19,12 +19,13 @@ import { Router, RouterLink } from '@angular/router';
     templateUrl: './top-bar.component.html',
     styleUrl: './top-bar.component.scss'
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit {
      items: MenuItem[] | undefined;
      avatarMenuItems: MenuItem[] | undefined;
      layoutService = inject(LayoutService);
      authService = inject(AuthService);
      router = inject(Router)
+
 
      constructor() {}
 

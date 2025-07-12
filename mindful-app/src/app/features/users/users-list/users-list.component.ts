@@ -27,4 +27,8 @@ export class UsersListComponent implements OnInit{
       complete: ()=> {},
     })
   }
+
+  getActiveRoles(rolesObj: any) {
+    return Object.values(rolesObj).filter((role: any) => role.active).map((role: any)=> role.label)
+  }
 }

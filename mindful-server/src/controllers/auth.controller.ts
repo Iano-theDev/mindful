@@ -12,8 +12,8 @@ import { UserService } from "../services/user.service";
 
 export class AuthController {
     private authService: AuthService;
-     private userService: UserService;
-     
+    private userService: UserService;
+
     constructor() {
         this.authService = new AuthService()
         this.userService = new UserService();
@@ -21,7 +21,30 @@ export class AuthController {
     register = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
             const { firstName, middleName, lastName, userName, DOB, nationality, occupation, email, role, password, phone } = req.body
-            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role, password, phone })
+            let accType = {
+                client: { active: false, label: "Client" },
+                therapist: { active: false, label: "Therapist" },
+                studentTherapist: { active: false, label: "Student Therapist" }
+            };
+
+            switch (role.code) {
+                case 'client':
+                     accType.client.active = true;
+                    break;
+                case 'therapist':
+                    accType.therapist.active = true;
+                    break;
+                case 'studentTherapist':
+                    accType.studentTherapist.active = true;
+                    break;
+                default:
+                    console.log("No such role supported!");
+                    throw new ValidationError("Unsupported role type: " + role.code);
+            }
+
+            console.log("Accout type when creating account is: ", accType)
+
+            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role: accType, password, phone })
 
             return res.status(201).json({ message: "user created successfully", user: savedUser })
 
@@ -57,13 +80,13 @@ export class AuthController {
             logger.info("TOKEN", token)
 
             const user: any = jwt.verify(token, process.env.SECRET_KEY as string)
-            const result  = await this.authService.logout(user.email)
+            const result = await this.authService.logout(user.email)
             logger.info("result from logout service is ", result)
             res.status(201).json(result)
 
             // req.user = user
             logger.info("User is", user)
-            
+
         } catch (error: any) {
             error.status = 401
             error.message = "invalid token, please login!"

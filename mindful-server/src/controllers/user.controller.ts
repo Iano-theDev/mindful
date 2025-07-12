@@ -17,7 +17,30 @@ export class UserController {
     createUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
             const { firstName, middleName, lastName, userName, DOB, nationality, occupation, email, role, password, phone } = req.body
-            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role, password, phone })
+            let accType = {
+                client: { active: false, label: "Client" },
+                therapist: { active: false, label: "Therapist" },
+                studentTherapist: { active: false, label: "Student Therapist" }
+            };
+
+            switch (role.code) {
+                case 'client':
+                     accType.client.active = true;
+                    break;
+                case 'therapist':
+                    accType.therapist.active = true;
+                    break;
+                case 'studentTherapist':
+                    accType.studentTherapist.active = true;
+                    break;
+                default:
+                    console.log("No such role supported!");
+                    throw new ValidationError("Unsupported role type: " + role.code);
+            }
+
+            console.log("Accout type when creating account is: ", accType)
+
+            const savedUser = await this.userService.createUser({ firstName, middleName, lastName, nationality, occupation, userName, DOB, email, role: accType, password, phone })
 
             return res.status(201).json({ message: "user created successfully", user: savedUser })
 
@@ -27,13 +50,13 @@ export class UserController {
     }
 
     getUserById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-        const query  = {_id: req.params.id}
+        const query = { _id: req.params.id }
         req.query = query
         return this.getSingleUser(req, res, next)
     }
 
     getSingleUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-        const { _id, userName, email} = req.query
+        const { _id, userName, email } = req.query
         logger.info("Request query is", req.query)
         const userId = req.params
         let query: any = {}
@@ -42,15 +65,15 @@ export class UserController {
                 query.email = email
             } else if (userName) {
                 query.userName = userName
-            } else 
-            if (_id || userId) {
-                logger.info('user id param: ', userId);
-                
-                query._id = userId.id
-            } else {
-                let message = "Reqiuired parameters missing, please provide a userName, email or _id"
-                throw new ValidationError(message)
-            }
+            } else
+                if (_id || userId) {
+                    logger.info('user id param: ', userId);
+
+                    query._id = userId.id
+                } else {
+                    let message = "Reqiuired parameters missing, please provide a userName, email or _id"
+                    throw new ValidationError(message)
+                }
 
             const user = await this.userService.getOneUser(query)
             return res.status(200).json({ message: "user found", user: user })
@@ -61,11 +84,11 @@ export class UserController {
 
     getUsers = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         const docs_limit = config.docs_limit || 50
-        let filter = req.query 
+        let filter = req.query
         try {
             const users = await this.userService.getUsers(filter)
             // logger.info("we got this users", users)
-            return res.status(200).json({message: "fetched users successfully", users})
+            return res.status(200).json({ message: "fetched users successfully", users })
         } catch (error) {
             next(error)
         }
@@ -73,10 +96,10 @@ export class UserController {
 
     updateUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
-            const query  = {_id: req.params.id}
-            const update  = req.body
-            
-            logger.info("request parameters",  update)
+            const query = { _id: req.params.id }
+            const update = req.body
+
+            logger.info("request parameters", update)
 
             const updateRes = await this.userService.updateUser(query, update)
 
@@ -92,7 +115,7 @@ export class UserController {
         let query: any = {}
         try {
             if (req.params.id) {
-                query  = {_id: req.params.id}
+                query = { _id: req.params.id }
             } else if (_id) {
                 query._id = _id
             } else if (email) {
@@ -102,9 +125,9 @@ export class UserController {
             } else {
                 throw new ValidationError("provide valid email or username")
             }
-            const deletedUser = await this.userService.deleteUser(query, {role})
-            logger.info("deleted user",deletedUser._id)
-            return res.status(200).json({message: "user deleted successfully", userName: deletedUser.userName})
+            const deletedUser = await this.userService.deleteUser(query, { role })
+            logger.info("deleted user", deletedUser._id)
+            return res.status(200).json({ message: "user deleted successfully", userName: deletedUser.userName })
         } catch (error) {
             next(error)
         }
@@ -114,5 +137,5 @@ export class UserController {
         // establish that credentials are needed to create a client
     }
 
-    
+
 }
