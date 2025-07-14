@@ -58,7 +58,7 @@ export class AuthController {
 
         try {
             if (!email || !password) {
-                throw new ValidationError("email and password are required")
+                throw new ValidationError("Please provide a valid email or username with the associated password.")
             }
 
             const token = await this.authService.login(email, password)

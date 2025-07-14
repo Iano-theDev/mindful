@@ -13,10 +13,10 @@ export class AuthService {
         this.secretKey = "STRINGmeanttoBeSecrete"
     }
 
-    login = async (email: string, password: string) => {
+    login = async (emailOrUsername: string, password: string) => {
 
-        // check if the use exists
-        const user = await User.findOne({ email })
+        const user = await this.getUser(emailOrUsername)
+
         logger.info("found user: ", user)
 
         if (!user) {
@@ -45,18 +45,29 @@ export class AuthService {
     }
 
     logout = async (email: string): Promise<any> => {
-        const user = await User.findOne({email})
+        const user = await this.getUser(email);
+
         if (user) {
             if (!user.isOnline) {
-                return { message: "user is not logged in", procStatus: false } 
+                return { message: "user is not logged in", procStatus: false }
             }
             // implement token invalidation mechanism here .
             logger.info("USER FOUND: ", user)
             user.isOnline = false
             await user.save()
-            return {message: "user logged out successfully", procStatus: true } 
+            return { message: "user logged out successfully", procStatus: true }
         }
-        return {message: "User not found", procStatus: false} 
+        return { message: "User not found", procStatus: false }
     }
-    
+
+    private getUser = async (emailOrUsername: string): Promise<any> => {
+        return await User.findOne({
+            $or: [
+                { email: emailOrUsername.toLowerCase() },
+                { userName: emailOrUsername }
+            ]
+        })
+
+    }
+
 }
