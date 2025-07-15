@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-card class="flex justify-content-center align-content-center">
+<p-card class="w-full flex justify-content-center align-content-center overflow-hidden">
     <ng-template #header>
         <!-- <div class="flex flex-column align-items-center gap-1">
             <img src="assets/images/mindful-logo.png" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0"
@@ -8,37 +8,32 @@
             <span class="text-600 font-medium">Sign in to continue</span>
         </div> -->
         <div class="flex flex-column align-items-center gap-3 p-2 sm:p-3">
-            
+
             <div class="hidden sm:block">
                 <img src="assets/images/mindful-logo.png" alt="mindful logo"
-                style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
+                    style="border-radius: 50%; border: 2px solid white; width: 3rem; height: 3rem; object-fit: cover;">
             </div>
-            
+
             <div class="sm:hidden">
                 <img src="assets/images/mindful-logo.png" alt="mindful logo"
-                style="border-radius: 50%; border: 2px solid white; width: 2rem; height: 2rem; object-fit: cover;">
+                    style="border-radius: 50%; border: 2px solid white; width: 2rem; height: 2rem; object-fit: cover;">
             </div>
-            
-            <span class="md:text-3xl">Sign in to continue</span> 
+
+            <span class="md:text-3xl">Sign in to continue</span>
         </div>
     </ng-template>
 
-    <!-- <ng-template #body class="sm:p-1"> -->
+    <ng-template #content class="">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="p-fluid flex flex-column align-content-center gap-2">
-            <span class="p-input-icon-left">
-                <i class="pi pi-envelope pl-2 pr-2"></i>
-                <input 
-                    id="email1" 
-                    type="text" 
-                    placeholder="Enter username or email" 
-                    pInputText 
-                    class="w-19rem p-2 md:p-3 sm:w-27rem md:w-30rem mb-2 sm:mb-3"
-                    formControlName="email">
+            <div class="p-fluid flex flex-column align-content-center gap-2">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-envelope pl-2 pr-2"></i>
+                    <input id="email1" type="text" placeholder="Enter username or email" pInputText
+                        class="w-19rem p-2 md:p-3 sm:w-27rem md:w-30rem mb-2 sm:mb-3" formControlName="email">
                 </span>
-            <span class="">
-                <i class="pi pi-lock pl-2"></i>
-                <!-- <p-password 
+                <span class="">
+                    <i class="pi pi-lock pl-2"></i>
+                    <!-- <p-password 
                     id="password1"
                     [toggleMask]="true"
                     placeholder="Password"
@@ -46,20 +41,21 @@
                     inputStyleClass="w-19rem md:p-3 sm:w-27rem md:w-30rem"
                     formControlName="password">
                 </p-password> -->
-                <p-password id="password1" formControlName="password"  size="large" placeholder="Password" [toggleMask]="true" [feedback]="false"
-                    styleClass="m-2 w-19rem sm:w-27rem md:w-30rem" inputStyleClass="w-19rem p-2 md:p-3 sm:w-27rem md:w-30rem"></p-password>
-            </span>
+                    <p-password id="password1" formControlName="password" size="large" placeholder="Password"
+                        [toggleMask]="true" [feedback]="false" styleClass="m-2 w-19rem sm:w-27rem md:w-30rem"
+                        inputStyleClass="w-19rem p-2 md:p-3 sm:w-27rem md:w-30rem"></p-password>
+                </span>
 
 
-            <div class="text-center mt-1 sm:mt-3">
-                <span class="text-sm sm:text-base">Don't have an account? </span>
-                <a routerLink="/auth/signup" class="text-primary font-medium">Register</a>
-            </div>
+                <div class="text-center mt-1 sm:mt-3">
+                    <span class="text-sm sm:text-base">Don't have an account? </span>
+                    <a routerLink="/auth/signup" class="text-primary font-medium">Register</a>
+                </div>
 
 
-            <!-- forgot password logic -->
+                <!-- forgot password logic -->
 
-            <!-- <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                <!-- <div class="flex align-items-center justify-content-between mb-5 gap-5">
                     <div class="flex align-items-center">
                         <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
                         <label for="rememberme1">Remember me</label>
@@ -68,12 +64,13 @@
                         style="color: var(--primary-color)">Forgot password?</a>
                 </div> -->
 
-            <button pButton pRipple label="Sign In" class="w-19rem sm:w-27rem md:w-30rem mx-4 p-2 sm:p-3 text-sm sm:text-xl"></button>
-        </div>
-    </form>
-    <!-- </ng-template> -->
+                <button pButton pRipple label="Sign In"
+                    class="w-19rem sm:w-27rem md:w-30rem mx-4 p-2 sm:p-3 text-sm sm:text-xl"></button>
+            </div>
+        </form>
+    </ng-template>
 
-    
+
 
 
 </p-card>
