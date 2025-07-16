@@ -89,7 +89,7 @@ export class AuthController {
 
         } catch (error: any) {
             error.status = 401
-            error.message = "invalid token, please login!"
+            // error.message = "invalid token, please login!"
             // check on this logc later, might be a mixup when calling the next function erro middleware
             logger.info("Token verification failed, ", error)
             // res.status(401).json({ error: 'Invalid token', });
@@ -114,7 +114,8 @@ export class AuthController {
         } catch (error: any) {
             // check on this logc later, might be a mixup when calling the next function erro middleware
             logger.info("Token verification failed, ", error)
-            res.status(401).json({ error: 'Invalid token', });
+            next(error)
+            // res.status(401).json({ error: 'Invalid token', });
         }
     }
 

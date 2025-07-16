@@ -33,7 +33,7 @@ export class AuthService {
             const token = jwt.sign(
                 { userId: user._id, email: user.email, name: user.firstName, isOnline: user.isOnline, role: user.role },
                 this.secretKey as string,
-                { expiresIn: '1h' }
+                { expiresIn: '2h' }
             )
             logger.info("token succesfully generated", token)
             return token
@@ -49,7 +49,8 @@ export class AuthService {
 
         if (user) {
             if (!user.isOnline) {
-                return { message: "user is not logged in", procStatus: false }
+                 throw new ValidationError("user is not logged in")
+                // return { message: "user is not logged in", procStatus: false }
             }
             // implement token invalidation mechanism here .
             logger.info("USER FOUND: ", user)
