@@ -38,9 +38,10 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear();
+    // localStorage.clear(); 
     this.router.navigate(['/auth/login']);
     this.loggedIn.set(false); 
-    return
+    return this.http.get( environment.MINDFUL_SERVER_URL + "/auth/logout")
+    
   }
 }

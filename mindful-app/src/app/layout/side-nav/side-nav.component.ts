@@ -70,7 +70,17 @@ export class SideNavComponent {
                     {
                         label: 'Logout',
                         icon: 'pi pi-sign-out',
-                        command: () => this.authService.logout()
+                        command: () => this.authService.logout().subscribe({
+                            next: (res: any) => {
+                                console.log("LOG OUT SUCCESS => res is: ", res)
+                                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
+                            },
+                            error: err => {
+                                console.log("LOG OUT FAILED => res is: ", err)
+                                this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.error })
+                            },
+                            complete: () => { localStorage.clear(); }
+                        })
                     }
                 ]
             },
@@ -83,12 +93,12 @@ export class SideNavComponent {
             item.command()
             this.layoutService.closeDrawer();
         }
-        
+
         this.layoutService.closeDrawer();
     }
 
     toggleFullMenu() {
         this.showFullMenu = !this.showFullMenu
-    
+
     }
 }

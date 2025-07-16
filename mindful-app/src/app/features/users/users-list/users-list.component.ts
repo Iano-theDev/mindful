@@ -23,7 +23,10 @@ export class UsersListComponent implements OnInit{
          this.users  = res.users
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
         },
-      error: err => { console.log("Error in users list component is : ", err)},
+        error: err => { console.log("Error in users list component is : ", err)
+
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+      },
       complete: ()=> {},
     })
   }
