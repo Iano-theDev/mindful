@@ -3,6 +3,7 @@ import { authGuard } from './features/auth/auth.guard'
 import { LayoutComponent } from './layout/layout/layout.component'
 import { UserProfileComponent } from './features/users/user-profile/user-profile.component'
 import { UsersListComponent } from './features/users/users-list/users-list.component'
+import { HomeComponent } from './layout/home/home.component'
 
 export const routes: Routes = [
     {
@@ -14,6 +15,10 @@ export const routes: Routes = [
         loadComponent: () => import('./layout/layout.routes').then(c => LayoutComponent),
         canActivate: [authGuard],
         children: [
+            {
+                path: '',
+                loadComponent: () => import('./layout/home/home.component').then(c => HomeComponent)
+            },
             {
                 path: 'users',
                 children: [
